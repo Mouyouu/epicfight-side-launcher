@@ -1,0 +1,19 @@
+# Dependances : reinstallees par "npm install"
+node_modules/
+
+# Produits de construction
+release/
+
+# Le pack lui-meme : 1,4 Go, il ne va pas dans un depot git.
+# Il se publie en Release GitHub, et le launcher le lit par MANIFESTE_URL.
+distribution/
+
+# Journaux et fichiers de travail
+*.log
+demarrage.log
+polices-apercu.html
+
+# Rien de personnel ne doit partir : jetons, sauvegardes, options de jeu
+*.token
+options.txt
+saves/

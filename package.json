@@ -1,0 +1,54 @@
+{
+  "name": "epicfight-side-launcher",
+  "productName": "Epicfight Side",
+  "version": "1.0.0",
+  "description": "Launcher du serveur Epicfight Side",
+  "main": "electron/main.js",
+  "author": "Mouyou",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win",
+    "dist:dir": "electron-builder --win --dir",
+    "manifeste": "node outils/faire-manifeste.js",
+    "oublis": "node outils/verifier-oublis.js"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "fr.mouyou.epicfightside",
+    "productName": "Epicfight Side",
+    "copyright": "Mouyou",
+    "directories": {
+      "output": "release",
+      "buildResources": "renderer/assets"
+    },
+    "files": [
+      "electron/**/*",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "renderer/assets/icone.ico",
+      "artifactName": "Epicfight-Side-Installateur-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Epicfight Side",
+      "installerIcon": "renderer/assets/icone.ico",
+      "uninstallerIcon": "renderer/assets/icone.ico",
+      "installerHeaderIcon": "renderer/assets/icone.ico",
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}

@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Guide des boss</title>
+<link rel="stylesheet" href="../polices.css">
+<style>
+:root{--nuit:#0A0A0A;--pierre:#111315;--pierre-h:#171A1D;--trait:#242A2E;--trait-c:#323A3F;
+ --bleu:#305088;--sarcelle:#388888;--eclat:#78F8F8;--texte:#E6EAEC;--doux:#8B979C;--faible:#59636A}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:var(--trait-c) transparent}
+body{background:transparent;color:var(--texte);font-family:"Barlow",system-ui,sans-serif;
+ font-size:14px;line-height:1.6;padding:18px 22px 40px}
+::selection{background:rgba(56,136,136,.4)}
+</style>
+<style>
+pre{font-family:"JetBrains Mono",Consolas,monospace;font-size:12px;line-height:1.55;
+ white-space:pre;color:var(--doux)}
+.regle{color:var(--bleu)}
+.filet{color:var(--trait-c)}
+.palier{color:var(--eclat);font-weight:500}
+.champ{color:var(--sarcelle);font-weight:500}
+.id{color:var(--faible)}
+.stats{color:var(--texte)}
+</style>
+</head>
+<body>
+<pre>
+<span class="regle">##############################################################################</span>
+  GUIDE DES BOSS  -  L'EVEIL DU ROI
+<span class="regle">##############################################################################</span>
+
+Genere par generer_guide_boss.py. Ne pas editer a la main.
+
+38 boss : 5 porteurs de gemme, 30 porteurs de piece, 2 post-game, plus le Roi
+Dechu. Pour chaque boss : ou il est, comment trouver l'endroit, et ce qu'il
+faut faire sur place pour qu'il apparaisse.
+
+Les noms d'objets sont donnes en francais avec le nom anglais entre
+parentheses. Cherche-les dans JEI (touche R sur un objet montre comment le
+fabriquer).
+
+PV et degats ont ete lus dans le bytecode des mods, pas estimes.
+
+<span class="regle">==============================================================================</span>
+1. LES 5 PORTEURS DE GEMME
+<span class="regle">==============================================================================</span>
+
+Les 5 plus fortes menaces du modpack (PV x degats). Chaque gemme se debloque a
+un palier de malediction. La cinquieme declenche la finale.
+
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="palier">  PALIER 6   GEMME DU POUVOIR (POURPRE)</span>
+  Netherite Monstrosity   (<span class="id">cataclysm:netherite_monstrosity</span>)
+<span class="stats">  600 PV  -  12 degats</span>
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="champ">  OU     </span>: Forge des Ames (soul_black_smith), dans le NETHER.
+<span class="champ">  TROUVER</span>: Localiser : fabriquer un OEIL DU MONSTRUEUX (Eye of Monstrous) et
+           le lancer, comme un oeil de l'Ender.
+<span class="champ">  FAIRE  </span>: Sur place : rien a faire, il se reveille quand on approche.
+
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="palier">  PALIER 12  GEMME DU COEUR (ECARLATE)</span>
+  Nerakyss, The Kraken   (<span class="id">block_factorys_bosses:kraken</span>)
+<span class="stats">  500 PV  -  20 degats</span>
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="champ">  OU     </span>: Navire du Kraken (kraken_ship), au fond des oceans profonds
+           (deep_ocean, deep_cold_ocean, deep_lukewarm_ocean).
+<span class="champ">  TROUVER</span>: Aucun objet de localisation : il faut explorer le fond.
+<span class="champ">  FAIRE  </span>: Sur place : rien a faire, il attaque quand on approche.
+
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="palier">  PALIER 18  GEMME DE L'AME (AZUREE)</span>
+  Le Dernier Veilleur, Arterius   (<span class="id">nightfall_invade:arterius</span>)
+<span class="stats">  400 PV  -  30 degats</span>
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="champ">  OU     </span>: Porte du Desastre (gate_of_disaster), desert et badlands.
+<span class="champ">  TROUVER</span>: Aucun objet de localisation connu.
+<span class="champ">  FAIRE  </span>: Sur place : rien a faire de special.
+
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="palier">  PALIER 24  GEMME DE LA RAISON (BLANCHE)</span>
+  The Wraithon   (<span class="id">wraithon:wraithon</span>)
+<span class="stats">  1000 PV  -  15 degats</span>
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="champ">  OU     </span>: NULLE PART. Ce boss n'apparait dans aucune structure du monde.
+<span class="champ">  TROUVER</span>: Il n'y a rien a chercher : il faut le convoquer.
+<span class="champ">  FAIRE  </span>: L'INVOQUER : fabriquer un EDIT DE CONFRONTATION
+           (<span class="id">wraithon:showdown_edict</span>) avec 7 lingots de netherite, 1 oeuf de
+           dragon et 1 etoile du Nether. Il ouvre son propre biome
+           (the_wraithium_battlegrounds). Sans cette recette, personne ne le
+           trouve jamais - c'est voulu.
+
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="palier">  PALIER 29  GEMME DE LA VOLONTE (AMBREE)</span>
+  Lord Pumpkinhead   (<span class="id">born_in_chaos_v1:lord_pumpkinhead</span>)
+<span class="stats">  1266 PV  -  20 degats</span>
+<span class="filet">------------------------------------------------------------------------------</span>
+<span class="champ">  OU     </span>: NULLE PART. Aucune structure non plus.
+<span class="champ">  TROUVER</span>: Il se fabrique, en deux temps.
+<span class="champ">  FAIRE  </span>: L'INVOQUER : (1) fabriquer une CITROUILLE INFERNALE - citrouille
+           sculptee + bougie donne une citrouille enflammee, puis + braise
+           infernale donne la CITROUILLE INFERNALE ; (2) la POSER au sol, puis
+           clic droit dessus avec un ELIXIR DE TRANSMUTATION. Il enchaine
+           TROIS FORMES, 1266 PV au total. ATTENTION a ne pas confondre avec
+           SIR Pumpkinhead, qui apparait en CASSANT le bloc, et seulement du
+           25 octobre au 5 novembre.
+
+<span class="regle">==============================================================================</span>
+2. LES 30 PORTEURS DE PIECE
+<span class="regle">==============================================================================</span>
+
+Une piece DIFFERENTE par boss. La quantite ne sert a rien : seule la variete
+compte. Tuer le Kraken vingt fois donne vingt pieces du Kraken.
+
+
+<span class="regle">==============================================================================</span>
+  SOUS TERRE
+<span class="regle">==============================================================================</span>
+
+  * Leivekilth  -  1000 PV, 5 degats  [Monster Expansion]
+      OU     : Inconnu. Monster Expansion est un mod facon Monster Hunter :
+               l'ordre conseille est Rhyza -&gt; Skrythe / Rakoth -&gt; Leivekilth.
+      TROUVER: Entite en plusieurs segments (leivekilth_part /
+               leivekilth_tail).
+      FAIRE  : A reperer en jeu, puis me le dire.
+
+  * Rakoth  -  750 PV, 5 degats  [Monster Expansion]
+      OU     : Inconnu. Voir Leivekilth : progression Rhyza -&gt; Skrythe /
+               Rakoth.
+      TROUVER: Entite en plusieurs segments.
+      FAIRE  : A reperer en jeu, puis me le dire.
+
+  * Skrythe  -  750 PV, 5 degats  [Monster Expansion]
+      OU     : Tous les biomes de l'Overworld - c'est le plus accessible des
+               trois.
+      TROUVER: Entite en plusieurs segments.
+      FAIRE  : Sur place : rien a faire.
+
+  * The Harbinger  -  390 PV, 12 degats  [Cataclysm]
+      OU     : Usine Ancienne (ancient_factory), sous terre.
+      TROUVER: Localiser : fabriquer un OEIL MECANIQUE (Eye of Mech).
+      FAIRE  : LE REVEILLER : inserer une ETOILE DU NETHER dans le coffre de
+               la salle.
+
+  * Relic Annihilator  -  300 PV, 10 degats  [EEEAB's Mobs]
+      OU     : Ruines de la Forge-Coeur (coreforge_ruins), sous terre.
+      TROUVER: Localiser : fabriquer l'OEIL DES RUINES DE LA FORGE-COEUR
+               (eye_of_coreforge_ruins).
+      FAIRE  : Sur place : rien a faire.
+
+  * Amethyst Crab  -  200 PV, 10 degats  [Cataclysm]
+      OU     : Geodes d'amethyste, sous terre. Pas de structure dediee.
+      TROUVER: Se trouve en creusant, comme les geodes normales.
+      FAIRE  : Sur place : rien a faire.
+
+  * Relic Earthshaker  -  150 PV, 15 degats  [EEEAB's Mobs]
+      OU     : Ruines de la Forge-Coeur (coreforge_ruins), sous terre.
+      TROUVER: Localiser : OEIL DES RUINES DE LA FORGE-COEUR.
+      FAIRE  : Sur place : rien a faire.
+
+  * Relic Ripper  -  75 PV, 8 degats  [EEEAB's Mobs]
+      OU     : Ruines de la Forge-Coeur (coreforge_ruins), sous terre.
+      TROUVER: Localiser : OEIL DES RUINES DE LA FORGE-COEUR. Les trois Relics
+               partagent la structure : un seul voyage suffit.
+      FAIRE  : Sur place : rien a faire.
+
+<span class="regle">==============================================================================</span>
+  RUINES ET FORTERESSES
+<span class="regle">==============================================================================</span>
+
+  * Bone Chimera  -  600 PV, 8 degats  [Dodos Mobs]
+      OU     : Inconnu : le mod ne declare rien de clair dans ses donnees.
+      TROUVER: A reperer en jeu, puis me le dire.
+
+  * Nameless Guardian  -  350 PV, 10 degats  [EEEAB's Mobs]
+      OU     : Chambre du Gardien Sans Nom (nameless_guardian_chamber), sous
+               terre. NECESSITE L'ADDON "EEEAB's Mobs - Nameless Guardian
+               Returns" : le mod de base 0.98.1 ne le fait plus apparaitre
+               nulle part en survie.
+      TROUVER: Localiser : /locate structure
+               eeeabsmobs:nameless_guardian_chamber. Verifie dans l'addon :
+               elle genere a y=-20, dans les biomes chauds, froids, secs ou
+               rares de l'Overworld, tous les 108 chunks environ. L'arene est
+               enterree ; une faille au sommet permet d'y sauter.
+      FAIRE  : Sur place : rien a faire, il attend au fond.
+
+  * Ashlord, The Infernal Dragon  -  250 PV, 15 degats  [Block Factory Bosses]
+      OU     : Tour du Dragon (dragon_tower), regions montagneuses ou plaines.
+               Donjon a plusieurs etages.
+      TROUVER: Aucun objet de localisation. Se voit de loin : c'est une tour.
+      FAIRE  : Sur place : il attend tout en haut.
+
+<span class="regle">==============================================================================</span>
+  DESERT
+<span class="regle">==============================================================================</span>
+
+  * Ancient Remnant  -  450 PV, 12 degats  [Cataclysm]
+      OU     : Pyramide Maudite (cursed_pyramid), desert.
+      TROUVER: Localiser : fabriquer un OEIL DU DESERT (Eye of Desert).
+      FAIRE  : LE REVEILLER : il ne se voit pas, il est enterre. Il faut le
+               COLLIER DU DESERT (Necklace of the desert), dont la description
+               dit exactement "on dirait que ca peut reveiller quelque chose".
+
+  * Ancient Ancient Remnant  -  400 PV, 10 degats  [Cataclysm]
+      OU     : Meme desert que l'Ancient Remnant : c'est sa forme superieure.
+      TROUVER: Localiser : OEIL DU DESERT (Eye of Desert).
+      FAIRE  : Sur place : voir l'Ancient Remnant.
+
+  * Sirok, The Sandworm  -  150 PV, 20 degats  [Block Factory Bosses]
+      OU     : Nid du Ver (sandworm_nest), desert. Ruines marquees par des
+               fragments d'os et des vases.
+      TROUVER: Aucun objet de localisation.
+      FAIRE  : Sur place : rien a faire, le sol tremble quand on approche.
+
+<span class="regle">==============================================================================</span>
+  REGIONS FROIDES
+<span class="regle">==============================================================================</span>
+
+  * Maledictus  -  420 PV, 10 degats  [Cataclysm]
+      OU     : Prison Givree (frosted_prison), biome snowy_plains.
+      TROUVER: Localiser : fabriquer un OEIL DE MALEDICTION (Eye of Curse).
+      FAIRE  : L'INVOQUER : tuer d'abord l'APTGANGR (mini-boss de la prison)
+               pour la CLE ETRANGE (Strange Key), qui ouvre la Porte du Sceau.
+               Puis, dans la salle du boss, clic droit sur la PIERRE TOMBALE
+               MAUDITE sous le balcon central. Il arrive tout de suite : etre
+               pret AVANT de cliquer.
+
+  * Skor, The Yeti  -  250 PV, 2 degats  [Block Factory Bosses]
+      OU     : Repaire du Yeti (yeti_hideout), toundra gelee. Pics de glace
+               entoures de fragments d'os.
+      TROUVER: Aucun objet de localisation.
+      FAIRE  : Sur place : des particules de neige previennent avant qu'il
+               sorte.
+
+  * Ghost of Captain Cornelia  -  200 PV, 16 degats  [Aquamirae]
+      OU     : Biome du Labyrinthe de Glace (ice_maze).
+      TROUVER: Trouver un NAVIRE PIRATE GELE dans le labyrinthe.
+      FAIRE  : L'INVOQUER : tuer le CAPITAINE DU NAVIRE dans sa cabine pour
+               obtenir la CORNE DE COQUILLAGE (Shell Horn), puis clic droit
+               avec la corne DANS le labyrinthe de glace, pres d'eau libre et
+               au-dessus du niveau du sol. La corne est consommee a chaque
+               invocation.
+
+  * Mother of the Maze  -  ? PV, ? degats  [Aquamirae]
+      OU     : Sous l'eau, dans le Labyrinthe de Glace.
+      TROUVER: Pas de structure : elle apparait avec les POISSONS-LANTERNES
+               (Anglerfish), avec 0,5 % de chance a chaque apparition de l'un
+               d'eux.
+      FAIRE  : C'est donc de la patience, ou /summon aquamirae:maze_mother.
+
+<span class="regle">==============================================================================</span>
+  OCEANS
+<span class="regle">==============================================================================</span>
+
+  * The Leviathan  -  400 PV, 10 degats  [Cataclysm]
+      OU     : Cite Engloutie (sunken_city), oceans profonds.
+      TROUVER: Localiser : fabriquer un OEIL DE L'ABIME (Eye of Abyss).
+      FAIRE  : L'INVOQUER : fabriquer un SACRIFICE ABYSSAL (Abyssal Sacrifice)
+               et le poser sur l'Autel de l'Abime, sous le dome central. Il
+               faut une ATHAME (lachee par les Deepling Warlocks et Priests)
+               et du corail cristallise.
+
+<span class="regle">==============================================================================</span>
+  DANS LE CIEL
+<span class="regle">==============================================================================</span>
+
+  * Scylla  -  390 PV, 12 degats  [Cataclysm]
+      OU     : Acropole (acropolis), EN L'AIR au-dessus des oceans chauds.
+      TROUVER: Localiser : fabriquer un OEIL DE TEMPETE (Eye of Storm).
+               Verifie dans le jar : eye_of_storm_located -&gt;
+               cataclysm:acropolis.
+      FAIRE  : Sur place : prevoir de quoi monter. Elle est dans le ciel.
+
+<span class="regle">==============================================================================</span>
+  NETHER
+<span class="regle">==============================================================================</span>
+
+  * Old Netherite Monstrosity  -  500 PV, 10 degats  [Cataclysm]
+      OU     : NETHER, en exploration libre.
+      TROUVER: Pas de structure dediee : c'est la version sauvage, plus
+               faible.
+      FAIRE  : Sur place : rien a faire.
+
+  * Ignis  -  450 PV, 10 degats  [Cataclysm]
+      OU     : Arene Ardente (burning_arena), biome nether_wastes.
+      TROUVER: Localiser : fabriquer un OEIL DE FLAMME (Eye of Flame).
+      FAIRE  : L'INVOQUER : tuer les Revenants de l'arene pour recuperer des
+               BRAISES MOURANTES (Dying Ember), en fabriquer des CENDRES
+               ARDENTES (Burning Ashes), et les poser sur l'Autel du Feu au
+               centre.
+
+  * The Immortal  -  400 PV, 10 degats  [EEEAB's Mobs]
+      OU     : Autel Sanglant (bloody_altar), dans le NETHER.
+      TROUVER: Localiser : fabriquer l'OEIL DE L'AUTEL SANGLANT
+               (eye_of_bloody_altar), l'equivalent EEEAB des yeux de
+               Cataclysm.
+      FAIRE  : Sur place : rien a faire.
+
+  * Helvar, the Underworld Knight  -  250 PV, ? degats  [Block Factory Bosses]
+      OU     : Arene des Enfers (underworld_arena), NETHER uniquement. Grande
+               forteresse.
+      TROUVER: Aucun objet de localisation.
+      FAIRE  : Sur place : il est dans la salle d'arene centrale.
+
+  * Immortal Executioner  -  120 PV, 6 degats  [EEEAB's Mobs]
+      OU     : Autel Sanglant (bloody_altar), dans le NETHER.
+      TROUVER: Localiser : OEIL DE L'AUTEL SANGLANT. Meme structure que The
+               Immortal.
+      FAIRE  : Sur place : rien a faire.
+
+  * Ignited Revenant  -  80 PV, 12 degats  [Cataclysm]
+      OU     : NETHER, en exploration libre.
+      TROUVER: Pas de structure dediee.
+      FAIRE  : Sur place : rien a faire.
+
+<span class="regle">==============================================================================</span>
+  END
+<span class="regle">==============================================================================</span>
+
+  * Realmwarden  -  400 PV, 15 degats  [EEEAB's Mobs]
+      OU     : !!! IMPOSSIBLE A OBTENIR EN SURVIE avec eeeabsmobs 0.98.1.
+      TROUVER: Verifie dans le jar : eeeabsmobs 0.98.1 ne declare que deux
+               structures (bloody_altar, coreforge_ruins). Le Realm Warden
+               n'existe plus que comme oeuf de spawn et disque de musique.
+               Aucun addon ne le ramene.
+      FAIRE  : C'EST PREVU : le palier de la derniere gemme a ete abaisse a
+               29, donc sa piece n'est pas necessaire. Vois la section 4.
+
+  * Ender Guardian  -  333 PV, 20 degats  [Cataclysm]
+      OU     : Citadelle en Ruine (ruined_citadel), dans l'END.
+      TROUVER: Localiser : fabriquer un OEIL DU VIDE (Eye of Void).
+      FAIRE  : Sur place : il se reveille au piedestal central.
+
+  * Ender Golem  -  150 PV, 12 degats  [Cataclysm]
+      OU     : Citadelle en Ruine (ruined_citadel), dans l'END.
+      TROUVER: Localiser : OEIL DU VIDE (Eye of Void). Meme structure que
+               l'Ender Guardian : un aller pour les deux.
+      FAIRE  : Sur place : rien a faire.
+
+<span class="regle">==============================================================================</span>
+  DE NUIT, EN SURFACE
+<span class="regle">==============================================================================</span>
+
+  * Corrupted Champion  -  600 PV, ? degats  [The Graveyard]
+      OU     : Prison du Lich (lich_prison) : une grande ile flottante au-
+               dessus des oceans.
+      TROUVER: Aucun objet de localisation : il faut la reperer en volant.
+      FAIRE  : L'INVOQUER, c'est le plus long du modpack : (1) recuperer les
+               TROIS FRAGMENTS DE BATON D'OS (superieur, milieu, inferieur)
+               dans trois structures Ruins differentes ; (2) obtenir une DAGUE
+               D'OS (lachee par les Acolytes, ou fabricable) ; (3) une FIOLE
+               DE SANG, remplie a ras bord, en tenant une bouteille en verre
+               en main secondaire et en tuant des villageois a la dague ; (4)
+               LA NUIT, poser les trois fragments du haut vers le bas sur les
+               blocs de deepslate corrompu devant l'autel, puis verser la
+               fiole dans l'autel.
+
+<span class="regle">==============================================================================</span>
+3. CEUX QU'ON RATE SI ON NE SAIT PAS
+<span class="regle">==============================================================================</span>
+
+Aller a la structure ne suffit pas pour ceux-la.
+
+  The Wraithon (gemme)
+      L'INVOQUER : fabriquer un EDIT DE CONFRONTATION
+      (<span class="id">wraithon:showdown_edict</span>) avec 7 lingots de netherite, 1 oeuf de dragon
+      et 1 etoile du Nether. Il ouvre son propre biome
+      (the_wraithium_battlegrounds). Sans cette recette, personne ne le trouve
+      jamais - c'est voulu.
+
+  Lord Pumpkinhead (gemme)
+      L'INVOQUER : (1) fabriquer une CITROUILLE INFERNALE - citrouille
+      sculptee + bougie donne une citrouille enflammee, puis + braise
+      infernale donne la CITROUILLE INFERNALE ; (2) la POSER au sol, puis clic
+      droit dessus avec un ELIXIR DE TRANSMUTATION. Il enchaine TROIS FORMES,
+      1266 PV au total. ATTENTION a ne pas confondre avec SIR Pumpkinhead, qui
+      apparait en CASSANT le bloc, et seulement du 25 octobre au 5 novembre.
+
+  Ancient Remnant (piece)
+      LE REVEILLER : il ne se voit pas, il est enterre. Il faut le COLLIER DU
+      DESERT (Necklace of the desert), dont la description dit exactement "on
+      dirait que ca peut reveiller quelque chose".
+
+  Ignis (piece)
+      L'INVOQUER : tuer les Revenants de l'arene pour recuperer des BRAISES
+      MOURANTES (Dying Ember), en fabriquer des CENDRES ARDENTES (Burning
+      Ashes), et les poser sur l'Autel du Feu au centre.
+
+  Maledictus (piece)
+      L'INVOQUER : tuer d'abord l'APTGANGR (mini-boss de la prison) pour la
+      CLE ETRANGE (Strange Key), qui ouvre la Porte du Sceau. Puis, dans la
+      salle du boss, clic droit sur la PIERRE TOMBALE MAUDITE sous le balcon
+      central. Il arrive tout de suite : etre pret AVANT de cliquer.
+
+  The Leviathan (piece)
+      L'INVOQUER : fabriquer un SACRIFICE ABYSSAL (Abyssal Sacrifice) et le
+      poser sur l'Autel de l'Abime, sous le dome central. Il faut une ATHAME
+      (lachee par les Deepling Warlocks et Priests) et du corail cristallise.
+
+  The Harbinger (piece)
+      LE REVEILLER : inserer une ETOILE DU NETHER dans le coffre de la salle.
+
+  Ghost of Captain Cornelia (piece)
+      L'INVOQUER : tuer le CAPITAINE DU NAVIRE dans sa cabine pour obtenir la
+      CORNE DE COQUILLAGE (Shell Horn), puis clic droit avec la corne DANS le
+      labyrinthe de glace, pres d'eau libre et au-dessus du niveau du sol. La
+      corne est consommee a chaque invocation.
+
+  Corrupted Champion (piece)
+      L'INVOQUER, c'est le plus long du modpack : (1) recuperer les TROIS
+      FRAGMENTS DE BATON D'OS (superieur, milieu, inferieur) dans trois
+      structures Ruins differentes ; (2) obtenir une DAGUE D'OS (lachee par
+      les Acolytes, ou fabricable) ; (3) une FIOLE DE SANG, remplie a ras
+      bord, en tenant une bouteille en verre en main secondaire et en tuant
+      des villageois a la dague ; (4) LA NUIT, poser les trois fragments du
+      haut vers le bas sur les blocs de deepslate corrompu devant l'autel,
+      puis verser la fiole dans l'autel.
+
+<span class="regle">==============================================================================</span>
+4. LE REALM WARDEN, ET POURQUOI LE COMPTE EST A 29
+<span class="regle">==============================================================================</span>
+
+Verifie dans eeeabsmobs-1.20.1-0.98.1.jar : ce mod ne declare plus que DEUX
+structures, bloody_altar et coreforge_ruins. Le NAMELESS GUARDIAN et le REALM
+WARDEN n'y existaient plus que sous forme d'oeuf de spawn et de disque de
+musique - ils n'apparaissaient nulle part en survie.
+
+Chaque piece rendue vaut 1 point de malediction, et c'est le palier de la
+GEMME AMBREE, la cinquieme, qui declenche la finale. A 30, avec deux pieces
+impossibles, le compteur aurait plafonne a 28 et la quete n'aurait jamais pu
+se terminer.
+
+  CE QUI A ETE FAIT :
+
+   1. L'addon "EEEAB's Mobs - Nameless Guardian Returns" est installe. Il
+      rajoute la structure nameless_guardian_chamber, donc le Nameless
+      Guardian redevient tuable et sa piece obtenable.
+
+   2. Le palier de la gemme ambree est passe de 30 a 29 (dans gemmes.yml). 29
+      = les 30 pieces moins le Realm Warden, que rien ne ramene. Il reste donc
+      exactement zero marge, mais la quete est finissable.
+
+EN CLAIR : tue 29 des 30 boss porteurs de piece. Le Realm Warden est le seul
+que tu peux ignorer - et de toute facon tu ne le croiseras jamais. Tous les
+autres comptent.
+
+<span class="regle">==============================================================================</span>
+5. A REPERER EN JEU
+<span class="regle">==============================================================================</span>
+
+Emplacement non trouve dans les donnees des mods. Quand tu en croises un, note
+l'endroit et dis-le moi : je corrige boss.yml et le guide se regenere.
+
+  - Leivekilth                         entite multi-segments (leivekilth_part / leivekilth_tail)
+  - Rakoth                             entite multi-segments
+  - Bone Chimera                       non confirme dans les donnees du mod
+  - Le Dernier Veilleur, Arterius      non confirme - plus gros frappeur du modpack
+  - The Wraithon                       non confirme - possede une barre de boss
+
+<span class="regle">==============================================================================</span>
+6. POST-GAME
+<span class="regle">==============================================================================</span>
+
+Les deux seuls boss du modpack SANS aucune table de butin : leurs drops sont
+codes en dur. C'est pour ca qu'ils sont hors de la collecte.
+
+  - The Mimic                1000 PV, 20 degats
+  - Proteus                  1000 PV, 30 degats
+
+mimic:proteus_2 et mimic:proteus s'affichent "???" : formes intermediaires, a
+ignorer.
+
+<span class="regle">==============================================================================</span>
+7. LE ROI DECHU
+<span class="regle">==============================================================================</span>
+
+  Type MobEngine : TOWER_SKELETON
+<span class="stats">  750 PV</span>
+  Ou : NULLE PART dans le monde. Il n'existe que dans l'arene.
+
+Il ne se cherche pas, il se declenche. Une fois les cinq gemmes scellees au
+cercle, le Serviteur ouvre la finale : QuestArenas construit une arene jetable
+au loin et t'y teleporte. Le boss attend ENDORMI SUR SON TRONE, a 187 blocs,
+et se reveille quand tu approches a 20 blocs.
+
+Mort ou deconnexion pendant le combat : l'arene est effacee et tu reviens a la
+chapelle. Reparle au Serviteur, il rouvre la porte - arene neuve, boss a
+pleine vie.
+
+<span class="regle">##############################################################################</span>
+</pre>
+</body>
+</html>

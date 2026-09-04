@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self' data: https://textures.minecraft.net;
+               style-src 'self'; font-src 'self'; script-src 'self'; frame-src 'self'">
+<title>Epicfight Side</title>
+<link rel="stylesheet" href="polices.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app" id="app" data-vue="connexion">
+
+  <!-- ------------------------------------------------- rail lateral -->
+  <aside class="rail">
+    <div class="marque"><img src="assets/logo.png" alt="Epicfight Side"></div>
+
+    <nav>
+      <a href="#" data-onglet="accueil" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>
+        Accueil</a>
+      <a href="#" data-onglet="actus">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h6M7 12h10M7 16h10"/></svg>
+        Actualités</a>
+      <a href="#" data-onglet="guide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.5 3.5a2 2 0 1 1 4 0V6h2.5a2 2 0 1 1 0 4H18v4h2.5a2 2 0 1 1 0 4H18v2.5H4V4h10.5z"/></svg>
+        Guide des boss</a>
+      <a href="#" data-onglet="touches">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></svg>
+        Touches</a>
+      <a href="#" data-onglet="reglages">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7.9 19.4l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 15.4V15a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9 3.6V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1.3z"/></svg>
+        Paramètres</a>
+    </nav>
+
+    <div class="quete" role="button" tabindex="0" data-onglet="guide">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="22" height="22"><path d="M3 8l4 3 5-6 5 6 4-3-2 11H5z"/><path d="M5 19h14"/></svg></span>
+      <span class="tx"><span class="t">L'Éveil du Roi</span><span class="s">29 pièces · 5 gemmes</span></span>
+      <span class="fl">›</span>
+    </div>
+
+    <div class="moi" id="moi" hidden>
+      <img id="tete" alt="">
+      <div class="moi-tx">
+        <div class="n" id="pseudo"></div>
+        <button class="t" id="deconnexion" type="button">Se déconnecter</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ------------------------------------------------- zone principale -->
+  <div class="main">
+    <div class="fond"><canvas id="deco"></canvas></div>
+    <div class="voile"></div>
+
+    <div class="chrome">
+      <button class="wbtn" id="reduire" title="Réduire" type="button">&#8212;</button>
+      <button class="wbtn fermer" id="fermer" title="Fermer" type="button">&#10005;</button>
+    </div>
+
+    <div class="corps">
+      <!-- lecteur de documents : guide des boss et touches, embarques dans le launcher -->
+      <section class="lecteur" id="lecteur" hidden>
+        <h2><span id="titreDoc">Document</span>
+          <button class="fermer-doc" id="fermerDoc" type="button" title="Fermer">&#10005;</button></h2>
+        <iframe id="cadreDoc" title="Document" src=""></iframe>
+      </section>
+
+      <!-- panneau paramètres, masqué par défaut -->
+      <section class="panneau" id="panneauReglages" hidden>
+        <h2>Paramètres</h2>
+        <label class="champ">
+          <span class="lb">Mémoire allouée</span>
+          <input type="range" id="ram" min="4" max="16" step="1">
+          <output id="ramValeur"></output>
+        </label>
+        <label class="bascule">
+          <input type="checkbox" id="rejoindre">
+          <span>Rejoindre le serveur au lancement</span>
+        </label>
+        <button class="secondaire" id="ouvrirDossier" type="button">Ouvrir le dossier de jeu</button>
+        <button class="secondaire" id="rejouerReglages" type="button">Réinitialiser les touches et options</button>
+        <p class="mention" id="cheminJeu"></p>
+      </section>
+
+      <section class="actus" id="actus">
+        <h2>Actualités</h2>
+        <div id="listeActus"></div>
+      </section>
+    </div>
+
+    <div class="socle">
+      <div class="bloc version">
+        <span class="cube"></span>
+        <div>
+          <div class="lb">Version</div>
+          <div class="val" id="versionPack">—</div>
+        </div>
+      </div>
+
+      <button class="jouer" id="jouer" type="button" disabled>Patientez</button>
+
+      <div class="bloc srv">
+        <div class="l"><span class="pastille" id="pastille"></span> <span id="etatServeur">Connexion…</span></div>
+        <div class="l">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M16 20v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="8" r="4"/></svg>
+          <span class="n" id="joueurs">—</span> joueurs
+        </div>
+      </div>
+    </div>
+
+    <div class="barre">
+      <div class="infos">
+        <span class="etat" id="etat">Prêt</span>
+        <span class="octets" id="octets"></span>
+        <span class="ping" id="ping"></span>
+        <span class="pct" id="pct"></span>
+      </div>
+      <div class="jauge"><i id="jauge"></i></div>
+      <div class="detail" id="detail"></div>
+    </div>
+
+    <!-- ------------------------------------------------- écran de connexion -->
+    <div class="porte">
+      <div class="boite">
+        <img class="lg" src="assets/logo.png" alt="Epicfight Side">
+        <h2>Identifiez-vous</h2>
+        <p>La connexion s'ouvre sur la page officielle de Microsoft.
+           Le launcher ne voit jamais votre mot de passe.</p>
+        <button class="ms" id="connexion" type="button">
+          <span class="carre"><i style="background:#F25022"></i><i style="background:#7FBA00"></i><i style="background:#00A4EF"></i><i style="background:#FFB900"></i></span>
+          Se connecter avec Microsoft
+        </button>
+        <p class="securite">Vérifiez que l'adresse de la fenêtre commence par
+        <b>login.microsoftonline.com</b>. Aucun launcher légitime ne demande votre mot de
+        passe dans sa propre interface.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="alerte" id="alerte" hidden role="alert"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

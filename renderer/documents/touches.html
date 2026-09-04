@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<title>Clavier AZERTY Epicfight</title>
+<link rel="stylesheet" href="../polices.css">
+<style>
+:root{
+  --fond:#E7EAEC; --carte:#FFFFFF; --encre:#191C1F; --doux:#5A6570; --trait:#C6CBD0;
+  --braise:#9B3229; --laiton:#8C6222; --acier:#33607E; --neutre:#6B7480;
+  --cap-fond:#FBFCFC; --cap-bord:#B9BFC5; --cap-ombre:rgba(25,28,31,.22);
+  --alerte-fond:#FBF0EE; --alerte-bord:#D9AAA4;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --fond:#131618; --carte:#1B1F22; --encre:#E3E7EA; --doux:#98A2AC; --trait:#2E343A;
+  --braise:#D2695C; --laiton:#D3A052; --acier:#7FA9C6; --neutre:#8E99A4;
+  --cap-fond:#252A2E; --cap-bord:#3C444B; --cap-ombre:rgba(0,0,0,.5);
+  --alerte-fond:#241A19; --alerte-bord:#5E3B36;
+}}
+:root[data-theme="dark"]{
+  --fond:#131618; --carte:#1B1F22; --encre:#E3E7EA; --doux:#98A2AC; --trait:#2E343A;
+  --braise:#D2695C; --laiton:#D3A052; --acier:#7FA9C6; --neutre:#8E99A4;
+  --cap-fond:#252A2E; --cap-bord:#3C444B; --cap-ombre:rgba(0,0,0,.5);
+  --alerte-fond:#241A19; --alerte-bord:#5E3B36;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--encre);
+ font-family:"Barlow","Segoe UI",system-ui,sans-serif;font-size:16px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding:2.2rem 1.2rem 4rem}
+h1,h2,h3{font-family:"Teko","Arial Narrow",sans-serif;font-weight:400;
+ letter-spacing:.01em;text-wrap:balance;margin:0}
+header{border-bottom:2px solid var(--encre);padding-bottom:1.1rem;margin-bottom:1.8rem}
+.eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.16em;color:var(--doux);
+ font-weight:600;margin:0 0 .5rem}
+h1{font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.05}
+.sub{color:var(--doux);margin:.6rem 0 0;max-width:62ch}
+.meta{display:flex;gap:1.6rem;flex-wrap:wrap;margin-top:1rem;font-size:.82rem;color:var(--doux)}
+.meta b{font-family:"JetBrains Mono",monospace;color:var(--encre);
+ font-variant-numeric:tabular-nums}
+kbd{font-family:"JetBrains Mono","Consolas",monospace;font-size:.82rem;
+ background:var(--cap-fond);border:1px solid var(--cap-bord);border-bottom-width:2px;
+ border-radius:4px;padding:.16em .48em;white-space:nowrap;color:var(--encre)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.94rem}
+th{text-align:left;font-weight:600;font-size:.72rem;text-transform:uppercase;
+ letter-spacing:.11em;color:var(--doux);padding:.3rem .7rem .45rem 0;
+ border-bottom:1px solid var(--trait)}
+td{padding:.42rem .7rem .42rem 0;border-bottom:1px solid var(--trait);vertical-align:baseline}
+td:last-child,th:last-child{width:34%;padding-right:0}
+tr.off td{color:var(--doux)}
+.none{font-size:.85rem;font-style:italic;color:var(--doux)}
+.warn{font-size:.76rem;color:var(--braise);display:inline-block;margin-left:.35rem}
+.bloc{background:var(--carte);border:1px solid var(--trait);border-left:3px solid var(--neutre);
+ border-radius:2px;padding:1.3rem 1.4rem;margin-bottom:1.1rem}
+.bloc.braise{border-left-color:var(--braise)}
+.bloc.laiton{border-left-color:var(--laiton)}
+.bloc.acier{border-left-color:var(--acier)}
+.bloc h2{font-size:1.28rem;margin-bottom:.2rem}
+.chapeau{color:var(--doux);font-size:.92rem;margin:.35rem 0 .9rem;max-width:66ch}
+.kb{background:var(--carte);border:1px solid var(--trait);border-radius:3px;
+ padding:1rem;margin-bottom:1.1rem;overflow-x:auto}
+.kb-inner{min-width:660px}
+.kb-row{display:flex;gap:4px;margin-bottom:4px}
+.kb-key{font-family:"JetBrains Mono",monospace;font-size:.66rem;
+ background:var(--cap-fond);border:1px solid var(--cap-bord);border-bottom-width:2px;
+ border-radius:3px;height:34px;display:flex;align-items:center;justify-content:center;
+ color:var(--doux);overflow:hidden;padding:0 2px;text-align:center}
+.kb-void{background:transparent;border:0;box-shadow:none}
+.kb-braise{background:var(--braise);border-color:var(--braise);color:#fff;font-weight:500}
+.kb-laiton{background:var(--laiton);border-color:var(--laiton);color:#fff;font-weight:500}
+.kb-acier{background:var(--acier);border-color:var(--acier);color:#fff;font-weight:500}
+.kb-neutre{color:var(--encre)}
+.legende{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.9rem;font-size:.78rem;
+ color:var(--doux)}
+.legende span{display:flex;align-items:center;gap:.4rem}
+.pastille{width:11px;height:11px;border-radius:2px;display:inline-block}
+.souris{list-style:none;margin:1rem 0 0;padding:0;display:flex;gap:1.4rem;flex-wrap:wrap;
+ font-size:.86rem;border-top:1px solid var(--trait);padding-top:.9rem}
+.souris li{display:flex;flex-direction:column}
+.souris strong{font-family:"JetBrains Mono",monospace;font-size:.78rem}
+.souris span{color:var(--doux);font-size:.82rem}
+.alerte{background:var(--alerte-fond);border:1px solid var(--alerte-bord);
+ border-left:3px solid var(--braise);border-radius:2px;padding:1.2rem 1.4rem;margin-bottom:1.1rem}
+.alerte h2{font-size:1.15rem;color:var(--braise)}
+.pblist{margin:.7rem 0 0;padding-left:1.1rem;font-size:.92rem}
+.pblist li{margin-bottom:.35rem}
+footer{margin-top:2.4rem;padding-top:1.1rem;border-top:1px solid var(--trait);
+ font-size:.82rem;color:var(--doux)}
+@media(max-width:620px){td:last-child,th:last-child{width:42%}
+ .bloc,.kb,.alerte{padding:1rem}}
+</style>
+<div class="wrap">
+<header>
+  <p class="eyebrow">Modpack Epicfight · Minecraft 1.20.1</p>
+  <h1>Les touches, en clair</h1>
+  <p class="sub">Toutes les commandes du modpack, regroupées par usage et traduites.
+  Les touches sont données telles qu'elles apparaissent sur un <strong>clavier AZERTY
+  français</strong> — pas le nom interne du jeu.</p>
+  <div class="meta">
+    <span>Touches attribuées <b>123</b></span>
+    <span>Mods concernés <b>35</b></span>
+    <span>Relevé du <b>03/09/2026</b></span>
+  </div>
+</header>
+
+<div class="kb"><div class="kb-inner">
+<div class="kb-row">
+<div class="kb-key" style="flex:1.3 0 0">Échap</div>
+<div class="kb-key kb-void" style="flex:0.6 0 0"></div>
+<div class="kb-key" style="flex:1 0 0">F1</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Capture d&#x27;écran">F2</div>
+<div class="kb-key" style="flex:1 0 0">F3</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacements d&#x27;accessoires">F4</div>
+<div class="kb-key kb-void" style="flex:0.4 0 0"></div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Changer de vue">F5</div>
+<div class="kb-key kb-laiton" style="flex:1 0 0" title="Capacité du casque">F6</div>
+<div class="kb-key kb-laiton" style="flex:1 0 0" title="Capacité du plastron">F7</div>
+<div class="kb-key kb-laiton" style="flex:1 0 0" title="Capacité des bottes">F8</div>
+<div class="kb-key kb-void" style="flex:0.4 0 0"></div>
+<div class="kb-key kb-laiton" style="flex:1 0 0" title="Bottes ardentes">F9</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Éditeur visuel de touches · Réglages des pas">F10</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Plein écran">F11</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Mode caméra">F12</div>
+</div>
+<div class="kb-row">
+<div class="kb-key kb-braise" style="flex:1 0 0" title="Changer le point de visée">²</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacement 1">&amp;</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacement 2">é</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacement 3">&quot;</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacement 4">&#x27;</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacement 5">(</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacement 6">-</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacement 7">è</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacement 8">_</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Emplacement 9">ç</div>
+<div class="kb-key" style="flex:1 0 0">à</div>
+<div class="kb-key kb-laiton" style="flex:1 0 0" title="Rugissement">)</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Repère immédiat">=</div>
+<div class="kb-key" style="flex:1.8 0 0">Retour</div>
+</div>
+<div class="kb-row">
+<div class="kb-key kb-acier" style="flex:1.6 0 0" title="Liste des joueurs · Recherche (Refined Storage)">Tab</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Jeter l&#x27;objet">A</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Avancer">Z</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Inventaire">E</div>
+<div class="kb-key kb-braise" style="flex:1 0 0" title="JEI — voir la recette · Basculer mode combat / vanilla">R</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Échanger main secondaire">T</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Activer / couper les shaders">Y</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="JEI — voir les utilisations · Changer d&#x27;épaule · Liste des repères">U</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Chat">I</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Choisir un pack de shaders">O</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Ouvrir le sac à dos">P</div>
+<div class="kb-key kb-braise" style="flex:1 0 0" title="Style Démon (bascule)">^</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Réglages Xaero">$</div>
+<div class="kb-key kb-laiton" style="flex:1.2 0 0" title="Plastron moussu">*</div>
+</div>
+<div class="kb-row">
+<div class="kb-key kb-braise" style="flex:1.9 0 0" title="Changer de cible librement">Verr. Maj</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Aller à gauche · JEI — favori">Q</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Reculer">S</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Aller à droite">D</div>
+<div class="kb-key kb-braise" style="flex:1 0 0" title="GARDE — bloquer · Action secondaire (blocage, visée)">F</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Cycle ← (mod non identifié) · Activer la vue à l&#x27;épaule">G</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Cycle → (mod non identifié) · Masquer les icônes vocales">H</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Jade — afficher l&#x27;info-bulle">J</div>
+<div class="kb-key kb-laiton" style="flex:1 0 0" title="Menu des compétences">K</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Progrès">L</div>
+<div class="kb-key kb-braise" style="flex:1 0 0" title="Zansetsu — mode de saisie (bascule)">M</div>
+<div class="kb-key kb-braise" style="flex:1 0 0" title="Style Ange (bascule)">ù</div>
+<div class="kb-key" style="flex:1.9 0 0">Entrée</div>
+</div>
+<div class="kb-row">
+<div class="kb-key kb-braise" style="flex:1.3 0 0" title="S&#x27;accroupir · Afficher les détails d&#x27;arme (maintenir) · Jade — détails (maintenir)">Maj</div>
+<div class="kb-key" style="flex:1 0 0">&lt;</div>
+<div class="kb-key kb-laiton" style="flex:1 0 0" title="Capacité de l&#x27;arme (Cataclysm) · Compétence 1 (Epic Cataclysm)">W</div>
+<div class="kb-key kb-laiton" style="flex:1 0 0" title="Capacité spéciale 2 · Compétence 2 (Epic Cataclysm)">X</div>
+<div class="kb-key kb-braise" style="flex:1 0 0" title="Arts de Nightfall · Compétence 3 (Epic Cataclysm)">C</div>
+<div class="kb-key kb-braise" style="flex:1 0 0" title="Doppelgänger">V</div>
+<div class="kb-key kb-braise" style="flex:1 0 0" title="Épée invoquée">B</div>
+<div class="kb-key kb-laiton" style="flex:1 0 0" title="Arbre de compétences">N</div>
+<div class="kb-key kb-acier" style="flex:1 0 0" title="Couper le micro · Ouvrir la carte du monde">,</div>
+<div class="kb-key kb-braise" style="flex:1 0 0" title="Doppelgänger — délai (bascule)">;</div>
+<div class="kb-key" style="flex:1 0 0">:</div>
+<div class="kb-key kb-neutre" style="flex:1 0 0" title="Commande">!</div>
+<div class="kb-key kb-acier" style="flex:2.4 0 0" title="Confirmation rapide">Maj droite</div>
+</div>
+<div class="kb-row">
+<div class="kb-key kb-acier" style="flex:1.4 0 0" title="Courir">Ctrl</div>
+<div class="kb-key kb-void" style="flex:1.1 0 0">Win</div>
+<div class="kb-key" style="flex:1.1 0 0">Alt</div>
+<div class="kb-key kb-braise" style="flex:6.6 0 0" title="Sauter · Compétence de déplacement">Espace</div>
+<div class="kb-key kb-void" style="flex:1.2 0 0">AltGr</div>
+<div class="kb-key kb-void" style="flex:1.1 0 0">Fn</div>
+<div class="kb-key kb-void" style="flex:1.4 0 0">Ctrl</div>
+</div>
+</div>
+<div class="legende">
+  <span><i class="pastille" style="background:var(--braise)"></i> Combat rapproché et Nightfall</span>
+  <span><i class="pastille" style="background:var(--laiton)"></i> Armes, armures, capacités</span>
+  <span><i class="pastille" style="background:var(--acier)"></i> Déplacement, objets, carte</span>
+  <span><i class="pastille" style="background:var(--cap-bord)"></i> Interface et confort</span>
+</div>
+<ul class="souris"><li><strong>Clic gauche</strong><span>Attaquer / Casser · JEI — donner l&#x27;objet · JEI — voir la recette · Attaquer (Epic Fight) · Compétence innée de l&#x27;arme · Action principale</span></li>
+<li><strong>Clic droit</strong><span>Utiliser / Interagir · Exécution · JEI — voir les utilisations · JEI — donner l&#x27;objet · JEI — vider la recherche · Capacité spéciale 1</span></li>
+<li><strong>Molette</strong><span>Prendre le bloc visé · Trier le contenu</span></li></ul>
+</div>
+
+<div class="alerte"><h2>Touches où une commande de combat croise l'interface</h2><p class="chapeau">Deux actions de combat sur une même touche ne posent pas de problème quand une seule s'applique. Le mélange avec une fonction d'interface, en revanche, se remarque tout de suite.</p><ul class="pblist"><li><kbd>Clic droit</kbd> mélange <strong>Exécution · Capacité spéciale 1</strong> et <em>JEI — voir les utilisations · JEI — donner l&#x27;objet · JEI — vider la recherche</em></li><li><kbd>Clic gauche</kbd> mélange <strong>Attaquer (Epic Fight) · Compétence innée de l&#x27;arme · Action principale</strong> et <em>JEI — donner l&#x27;objet · JEI — voir la recette</em></li><li><kbd>Maj gauche</kbd> mélange <strong>Afficher les détails d&#x27;arme (maintenir)</strong> et <em>Jade — détails (maintenir)</em></li><li><kbd>R</kbd> mélange <strong>Basculer mode combat / vanilla</strong> et <em>JEI — voir la recette</em></li></ul></div>
+
+<section class="bloc braise"><h2>Se battre — les gestes de base</h2><p class="chapeau">Ce sont les quatre commandes qu&#x27;on utilise à chaque affrontement. Elles viennent d&#x27;Epic Fight, le mod qui remplace le combat vanilla.</p><div class="tw"><table><thead><tr><th>Action</th><th>Touche</th></tr></thead><tbody><tr><td>GARDE — bloquer</td><td><kbd>F</kbd></td></tr>
+<tr><td>ESQUIVE</td><td><kbd>Bouton souris 4</kbd></td></tr>
+<tr><td>Verrouiller une cible</td><td><kbd>Bouton souris 5</kbd></td></tr>
+<tr><td>Basculer mode combat / vanilla</td><td><kbd>R</kbd></td></tr>
+<tr><td>Attaquer (Epic Fight)</td><td><kbd>Clic gauche</kbd></td></tr>
+<tr><td>Compétence innée de l&#x27;arme</td><td><kbd>Clic gauche</kbd></td></tr>
+<tr><td>Compétence de déplacement</td><td><kbd>Espace</kbd></td></tr>
+<tr class="off"><td>Cible précédente</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Cible suivante</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Changer de cible librement</td><td><kbd>Verr. Maj</kbd></td></tr>
+<tr><td>Changer le point de visée</td><td><kbd>²</kbd></td></tr>
+<tr><td>Afficher les détails d&#x27;arme (maintenir)</td><td><kbd>Maj gauche</kbd></td></tr></tbody></table></div></section>
+<section class="bloc braise"><h2>Compétences de Nightfall</h2><p class="chapeau">Les sept commandes de l&#x27;arme Nightfall. Contrairement aux armes, elles sont toutes disponibles en même temps : chacune a donc besoin de sa propre touche.</p><div class="tw"><table><thead><tr><th>Action</th><th>Touche</th></tr></thead><tbody><tr><td>Arts de Nightfall</td><td><kbd>C</kbd></td></tr>
+<tr><td>Doppelgänger</td><td><kbd>V</kbd></td></tr>
+<tr><td>Épée invoquée</td><td><kbd>B</kbd></td></tr>
+<tr><td>Doppelgänger — délai (bascule)</td><td><kbd>;</kbd></td></tr>
+<tr><td>Style Ange (bascule)</td><td><kbd>ù</kbd></td></tr>
+<tr><td>Style Démon (bascule)</td><td><kbd>^</kbd></td></tr>
+<tr><td>Zansetsu — mode de saisie (bascule)</td><td><kbd>M</kbd></td></tr></tbody></table></div></section>
+<section class="bloc laiton"><h2>Armes et capacités</h2><p class="chapeau">Ces touches sont volontairement partagées entre plusieurs mods d&#x27;armes : on ne tient qu&#x27;une arme à la fois, il n&#x27;y a donc pas de gêne réelle.</p><div class="tw"><table><thead><tr><th>Action</th><th>Touche</th></tr></thead><tbody><tr><td>Action principale</td><td><kbd>Clic gauche</kbd></td></tr>
+<tr><td>Action secondaire (blocage, visée)</td><td><kbd>F</kbd></td></tr>
+<tr><td>Capacité spéciale 1</td><td><kbd>Clic droit</kbd></td></tr>
+<tr><td>Capacité spéciale 2</td><td><kbd>X</kbd></td></tr>
+<tr><td>Exécution</td><td><kbd>Clic droit</kbd></td></tr>
+<tr><td>Capacité de l&#x27;arme (Cataclysm)</td><td><kbd>W</kbd></td></tr>
+<tr><td>Compétence 1 (Epic Cataclysm)</td><td><kbd>W</kbd></td></tr>
+<tr><td>Compétence 2 (Epic Cataclysm)</td><td><kbd>X</kbd></td></tr>
+<tr><td>Compétence 3 (Epic Cataclysm)</td><td><kbd>C</kbd></td></tr>
+<tr class="off"><td>Roulade</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Menu des compétences</td><td><kbd>K</kbd></td></tr>
+<tr><td>Arbre de compétences</td><td><kbd>N</kbd></td></tr></tbody></table></div></section>
+<section class="bloc laiton"><h2>Capacités d&#x27;armure</h2><p class="chapeau">Celles-là ne peuvent pas se partager : on porte le casque, le plastron et les bottes en même temps, donc chaque pièce a besoin d&#x27;une touche distincte.</p><div class="tw"><table><thead><tr><th>Action</th><th>Touche</th></tr></thead><tbody><tr><td>Capacité du casque</td><td><kbd>F6</kbd></td></tr>
+<tr><td>Capacité du plastron</td><td><kbd>F7</kbd></td></tr>
+<tr><td>Capacité des bottes</td><td><kbd>F8</kbd></td></tr>
+<tr><td>Bottes ardentes</td><td><kbd>F9</kbd></td></tr>
+<tr><td>Plastron moussu</td><td><kbd>*</kbd></td></tr>
+<tr><td>Rugissement</td><td><kbd>)</kbd></td></tr></tbody></table></div></section>
+<section class="bloc acier"><h2>Se déplacer et voir</h2><p class="chapeau">Déplacements vanilla et réglages de la caméra à l&#x27;épaule.</p><div class="tw"><table><thead><tr><th>Action</th><th>Touche</th></tr></thead><tbody><tr><td>Avancer</td><td><kbd>Z</kbd></td></tr>
+<tr><td>Reculer</td><td><kbd>S</kbd></td></tr>
+<tr><td>Aller à gauche</td><td><kbd>Q</kbd></td></tr>
+<tr><td>Aller à droite</td><td><kbd>D</kbd></td></tr>
+<tr><td>Sauter</td><td><kbd>Espace</kbd></td></tr>
+<tr><td>S&#x27;accroupir</td><td><kbd>Maj gauche</kbd></td></tr>
+<tr><td>Courir</td><td><kbd>Ctrl gauche</kbd></td></tr>
+<tr><td>Changer de vue</td><td><kbd>F5</kbd></td></tr>
+<tr class="off"><td>Regard libre</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Changer d&#x27;épaule</td><td><kbd>U</kbd></td></tr>
+<tr><td>Caméra — rapprocher</td><td><kbd>Flèche ↑</kbd></td></tr>
+<tr><td>Caméra — éloigner</td><td><kbd>Flèche ↓</kbd></td></tr>
+<tr><td>Caméra — monter</td><td><kbd>Page ↑</kbd></td></tr>
+<tr><td>Caméra — descendre</td><td><kbd>Page ↓</kbd></td></tr>
+<tr><td>Caméra — gauche</td><td><kbd>Flèche ←</kbd></td></tr>
+<tr><td>Caméra — droite</td><td><kbd>Flèche →</kbd></td></tr>
+<tr><td>Activer la vue à l&#x27;épaule</td><td><kbd>G</kbd></td></tr></tbody></table></div></section>
+<section class="bloc acier"><h2>Objets et rangement</h2><div class="tw"><table><thead><tr><th>Action</th><th>Touche</th></tr></thead><tbody><tr><td>Inventaire</td><td><kbd>E</kbd></td></tr>
+<tr><td>Échanger main secondaire</td><td><kbd>T</kbd></td></tr>
+<tr><td>Jeter l&#x27;objet</td><td><kbd>A</kbd></td></tr>
+<tr><td>Prendre le bloc visé</td><td><kbd>Clic molette</kbd></td></tr>
+<tr><td>Emplacement 1</td><td><kbd>1</kbd></td></tr>
+<tr><td>Emplacement 2</td><td><kbd>2</kbd></td></tr>
+<tr><td>Emplacement 3</td><td><kbd>3</kbd></td></tr>
+<tr><td>Emplacement 4</td><td><kbd>4</kbd></td></tr>
+<tr><td>Emplacement 5</td><td><kbd>5</kbd></td></tr>
+<tr><td>Emplacement 6</td><td><kbd>6</kbd></td></tr>
+<tr><td>Emplacement 7</td><td><kbd>7</kbd></td></tr>
+<tr><td>Emplacement 8</td><td><kbd>8</kbd></td></tr>
+<tr><td>Emplacement 9</td><td><kbd>9</kbd></td></tr>
+<tr><td>Ouvrir le sac à dos</td><td><kbd>P</kbd></td></tr>
+<tr class="off"><td>Interaction sac ↔ inventaire</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Sac — amélioration 1</td><td><kbd>Alt + W</kbd></td></tr>
+<tr><td>Sac — amélioration 2</td><td><kbd>Alt + X</kbd></td></tr>
+<tr><td>Trier le contenu</td><td><kbd>Clic molette</kbd></td></tr>
+<tr><td>Terminal de stockage</td><td><kbd>Suppr</kbd></td></tr>
+<tr><td>Recherche (Refined Storage)</td><td><kbd>Tab</kbd></td></tr>
+<tr><td>Vider la grille de craft</td><td><kbd>Ctrl + X</kbd></td></tr>
+<tr><td>Emplacements d&#x27;accessoires</td><td><kbd>F4</kbd></td></tr>
+<tr class="off"><td>Carquois</td><td><span class="none">non liée</span></td></tr></tbody></table></div></section>
+<section class="bloc acier"><h2>Carte et repères</h2><div class="tw"><table><thead><tr><th>Action</th><th>Touche</th></tr></thead><tbody><tr><td>Ouvrir la carte du monde</td><td><kbd>,</kbd></td></tr>
+<tr><td>Agrandir la minicarte</td><td><kbd>Fin</kbd></td></tr>
+<tr class="off"><td>Nouveau repère</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Repère immédiat</td><td><kbd>=</kbd></td></tr>
+<tr><td>Liste des repères</td><td><kbd>U</kbd></td></tr>
+<tr><td>Réglages de la minicarte</td><td><kbd>Inser</kbd></td></tr>
+<tr><td>Réglages Xaero</td><td><kbd>$</kbd></td></tr>
+<tr><td>Confirmation rapide</td><td><kbd>Maj droite</kbd></td></tr></tbody></table></div></section>
+<section class="bloc acier"><h2>Chat vocal</h2><div class="tw"><table><thead><tr><th>Action</th><th>Touche</th></tr></thead><tbody><tr><td>Parler (chat vocal)</td><td><kbd>Origine</kbd></td></tr>
+<tr><td>Couper le micro</td><td><kbd>,</kbd></td></tr>
+<tr class="off"><td>Désactiver le chat vocal</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Masquer les icônes vocales</td><td><kbd>H</kbd></td></tr>
+<tr class="off"><td>Groupe vocal</td><td><span class="none">non liée</span></td></tr></tbody></table></div></section>
+<section class="bloc neutre"><h2>Interface et confort</h2><div class="tw"><table><thead><tr><th>Action</th><th>Touche</th></tr></thead><tbody><tr><td>Chat</td><td><kbd>I</kbd></td></tr>
+<tr><td>Commande</td><td><kbd>!</kbd></td></tr>
+<tr><td>Liste des joueurs</td><td><kbd>Tab</kbd></td></tr>
+<tr><td>Progrès</td><td><kbd>L</kbd></td></tr>
+<tr><td>Capture d&#x27;écran</td><td><kbd>F2</kbd></td></tr>
+<tr><td>Plein écran</td><td><kbd>F11</kbd></td></tr>
+<tr><td>Jade — afficher l&#x27;info-bulle</td><td><kbd>J</kbd></td></tr>
+<tr><td>Jade — détails (maintenir)</td><td><kbd>Maj gauche</kbd></td></tr>
+<tr class="off"><td>Jade — recettes</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Jade — utilisations</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Jade — liquides</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Jade — lecture vocale</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Jade — réglages</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Activer / couper les shaders</td><td><kbd>Y</kbd></td></tr>
+<tr><td>Choisir un pack de shaders</td><td><kbd>O</kbd></td></tr>
+<tr class="off"><td>Recharger les shaders</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Changer de barre d&#x27;objets</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Sélecteur de variantes</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Verrouiller la rotation</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Mode caméra</td><td><kbd>F12</kbd></td></tr>
+<tr class="off"><td>Retour (Quark)</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Ailes cosmétiques</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Traînées cosmétiques</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Emotes</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Terminer la cinématique</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Éditeur visuel de touches</td><td><kbd>F10</kbd></td></tr>
+<tr class="off"><td>Réglages des notifications</td><td><span class="none">non liée</span></td></tr>
+<tr><td>Réglages des pas</td><td><kbd>F10</kbd></td></tr>
+<tr><td>Cycle ← (mod non identifié)</td><td><kbd>G</kbd></td></tr>
+<tr><td>Cycle → (mod non identifié)</td><td><kbd>H</kbd></td></tr>
+<tr class="off"><td>Interactions sociales</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Sauver la barre (créatif)</td><td><span class="none">non liée</span></td></tr>
+<tr class="off"><td>Charger la barre (créatif)</td><td><span class="none">non liée</span></td></tr></tbody></table></div></section>
+
+<footer>
+Page générée depuis le fichier <code>options.txt</code> de l'instance : elle décrit l'état réel
+du jeu, pas une configuration théorique. Les 31 touches de JEI ne sont pas listées — elles
+n'agissent qu'à l'intérieur des menus.
+</footer>
+</div>
+
+
+<style>
+/* Habillage launcher : la page garde sa structure, elle prend nos couleurs. */
+html{color-scheme:dark}
+:root,:root[data-theme="dark"]{
+  --fond:#0F1113; --carte:#171A1D; --encre:#E6EAEC; --doux:#8B979C; --trait:#242A2E;
+  --braise:#D2695C; --laiton:#D3A052; --acier:#78F8F8; --neutre:#8B979C;
+  --cap-fond:#1F2429; --cap-bord:#323A3F; --cap-ombre:rgba(0,0,0,.55);
+  --alerte-fond:#241A19; --alerte-bord:#5E3B36;
+}
+body{background:transparent}
+.wrap{max-width:none;padding:4px 4px 40px}
+header{border-bottom-color:var(--trait)}
+h1,h2,h3{letter-spacing:.06em}
+</style>
+</body>
+</html>
