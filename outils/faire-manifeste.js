@@ -40,6 +40,15 @@ const DOSSIERS = [
   'local',               // reglages client FTB Library
   'fancymenu_data',      // compagnon anime et donnees de FancyMenu
   'data',                // fabricDefaultResourcePacks.dat : les packs actives par defaut
+
+  // Armourer's Workshop : on descend d'un cran a dessein.
+  // Le dossier armourers_workshop pesait 516 Mo dans l'instance, dont 545 Mo (*) de
+  // skin-cache - un cache que le mod retelecharge tout seul depuis le serveur, donc du
+  // poids pur pour le joueur. Seule skin-library compte : 2,5 Mo de skins .armour, qui
+  // sont du contenu du pack. Le dossier parent n'etait ni dans DOSSIERS ni dans EXCLUS :
+  // il disparaissait sans que rien ne le signale.
+  // (*) les deux mesures ne s'additionnent pas, du a l'arrondi de du -sh.
+  'armourers_workshop/skin-library',
 ];
 
 // Fichiers racine a distribuer tels quels.
@@ -56,6 +65,7 @@ const EXCLUS = new Set([
   'journeymap', 'xaero', 'XaeroWaypoints_BACKUP240807', 'modernfix',
   'Distant_Horizons_server_data', 'server-resource-packs', 'schematics', 'ldlib',
   '.mixin.out', '.cache', '.curseclient', '.qmenu_opened.marker',
+  'armourers_workshop',  // seul skin-library est pris, voir DOSSIERS : skin-cache = 545 Mo de cache
   'usercache.json', 'usernamecache.json', 'realms_persistence.json',
   'launcher_accounts.json', 'minecraftinstance.json', 'user-prefs.json',
   'emi.json', 'imgui.ini', 'servers.dat_old', 'EffekseerNativeForJava.dll',
