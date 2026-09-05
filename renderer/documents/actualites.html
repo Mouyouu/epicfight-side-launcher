@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Actualités</title>
+<link rel="stylesheet" href="../polices.css">
+<style>
+:root{
+  --nuit:#0A0A0A; --pierre:#111315; --pierre-h:#171A1D; --trait:#242A2E;
+  --trait-c:#323A3F; --sarcelle:#388888; --eclat:#78F8F8; --or:#D8B45A;
+  --texte:#E6EAEC; --doux:#8B979C; --faible:#59636A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:var(--trait-c) transparent}
+body{background:transparent;color:var(--texte);
+  font-family:"Barlow",system-ui,sans-serif;font-size:14px;line-height:1.6;
+  padding:16px 18px 48px}
+::selection{background:rgba(56,136,136,.4)}
+
+h1{font-size:1.34rem;font-weight:600;letter-spacing:.01em}
+.chapeau{color:var(--faible);font-size:12.5px;margin-top:2px}
+
+ol{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:20px}
+
+/* Un article = une bande de couleur, sa date, son titre, son resume.
+   Le corps ne s'ouvre qu'au clic : la page reste lisible d'un coup d'oeil
+   meme quand les actualites s'accumulent. */
+li{border:1px solid var(--trait);border-radius:10px;background:var(--pierre);
+  overflow:hidden}
+li:hover{border-color:var(--trait-c)}
+li[ouvert]{border-color:var(--sarcelle);background:var(--pierre-h)}
+
+.tete{display:flex;align-items:stretch;gap:0;width:100%;padding:0;
+  background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.bande{flex:none;width:5px}
+.dedans{flex:1;min-width:0;padding:12px 14px}
+
+.date{color:var(--faible);font-size:11.5px;letter-spacing:.07em;
+  font-variant-numeric:tabular-nums}
+.titre{font-size:1.02rem;font-weight:600;margin-top:2px;letter-spacing:.01em}
+.resume{color:var(--doux);margin-top:5px}
+
+.chev{flex:none;align-self:center;color:var(--faible);padding-right:12px;
+  transition:transform .15s}
+li[ouvert] .chev{transform:rotate(90deg);color:var(--eclat)}
+
+.corps{padding:0 14px 15px 19px;border-top:1px solid var(--trait);margin-top:0}
+.corps p{margin-top:11px;max-width:68ch}
+.corps p:first-child{margin-top:12px}
+.corps strong{color:var(--eclat);font-weight:600}
+
+.vide{text-align:center;color:var(--faible);padding:44px 0}
+</style>
+</head>
+<body>
+
+<h1>Actualités</h1>
+<p class="chapeau">Ce qui a changé sur le serveur, du plus récent au plus ancien.</p>
+
+<ol id="liste"></ol>
+<div class="vide" id="vide" hidden>Aucune actualité pour le moment.</div>
+
+<script id="donnees" type="application/json">[]</script>
+<script>
+const ACTUS = JSON.parse(document.getElementById('donnees').textContent);
+const liste = document.getElementById('liste');
+let ouvert = 0;   // la plus recente est ouverte d'emblee : on vient pour elle
+
+const echapper = (t) => String(t).replace(/[&<>"]/g, (c) =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+/* Un seul enrichissement, volontairement : **gras**. Ecrire les actualites en
+   HTML brut aurait voulu dire injecter du balisage venu du reseau. */
+const gras = (t) => echapper(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+function dessiner() {
+  liste.innerHTML = ACTUS.map((a, i) => {
+    const est = i === ouvert;
+    const corps = Array.isArray(a.corps) ? a.corps : (a.corps ? [a.corps] : []);
+    return '<li data-i="' + i + '"' + (est ? ' ouvert' : '') + '>'
+      + '<button class="tete" type="button" aria-expanded="' + est + '">'
+      + '<span class="bande" style="background:'
+        + echapper(a.couleur || 'linear-gradient(140deg,#305088,#202848)') + '"></span>'
+      + '<span class="dedans">'
+      + '<span class="date">' + echapper(a.date || '') + '</span>'
+      + '<div class="titre">' + echapper(a.titre || '') + '</div>'
+      + (a.resume ? '<div class="resume">' + gras(a.resume) + '</div>' : '')
+      + '</span>'
+      + '<svg class="chev" viewBox="0 0 24 24" width="16" height="16" fill="none"'
+      + ' stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>'
+      + '</button>'
+      + (est && corps.length
+          ? '<div class="corps">' + corps.map((p) => '<p>' + gras(p) + '</p>').join('') + '</div>'
+          : '')
+      + '</li>';
+  }).join('');
+  document.getElementById('vide').hidden = ACTUS.length > 0;
+}
+
+liste.addEventListener('click', (e) => {
+  const li = e.target.closest('li');
+  if (!li) return;
+  const i = Number(li.dataset.i);
+  ouvert = (ouvert === i) ? -1 : i;
+  dessiner();
+  if (ouvert === i) {
+    const c = liste.querySelector('li[ouvert]');
+    if (c) c.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+});
+
+dessiner();
+</script>
+</body>
+</html>

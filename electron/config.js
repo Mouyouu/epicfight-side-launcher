@@ -32,6 +32,9 @@ module.exports = {
   // guide reste embarque dans l'application (voir electron/contenu.js).
   CONTENU_BASE: 'https://github.com/Mouyouu/epicfight-side-launcher/releases/download/pack/',
 
+  // --- le Discord du serveur, ouvert dans le navigateur du joueur
+  DISCORD: 'https://discord.gg/ZrTkVQwqQd',
+
   // --- memoire allouee au jeu (Go)
   RAM: { min: 4, max: 8 },
 

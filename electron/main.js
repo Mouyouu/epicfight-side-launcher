@@ -123,6 +123,7 @@ ipcMain.handle('app:config', () => ({
   forge: config.FORGE,
   // (plus de liens externes : les documents sont embarques)
   actualites: config.ACTUALITES,
+  discord: config.DISCORD,
   version: app.getVersion(),
 }));
 
@@ -133,7 +134,14 @@ ipcMain.handle('app:dossier', () => RACINE_JEU);
    affiche d'abord ce qui est embarque, puis remplace si mieux est arrive. */
 ipcMain.handle('app:contenu', async () => {
   const [actus, guide] = await Promise.all([contenu.actualites(), contenu.guide()]);
-  return { actualites: actus.liste, source: actus.source, guide };
+  // La page des actualites est assemblee a partir de la MEME liste : le panneau
+  // d'accueil et la page ne peuvent pas afficher deux choses differentes.
+  return {
+    actualites: actus.liste,
+    source: actus.source,
+    guide,
+    pageActus: contenu.pageActus(actus.liste),
+  };
 });
 
 ipcMain.handle('maj:etat', () => maj.etat());

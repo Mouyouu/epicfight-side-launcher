@@ -228,3 +228,26 @@ nav a:focus-visible{outline:1px solid var(--eclat);outline-offset:-2px}
 .maj.prete{color:var(--eclat);cursor:pointer;-webkit-app-region:no-drag}
 .maj.prete:hover{text-decoration:underline}
 .maj.erreur{color:var(--faible);cursor:help}
+
+/* ---------------- Discord ----------------
+   Dans le rail, sous la quete : c'est un lien vers l'exterieur, il ne doit pas
+   se confondre avec la navigation interne au-dessus. */
+.discord{margin:8px 12px 0;padding:9px 13px;border-radius:3px;cursor:pointer;
+  display:flex;align-items:center;gap:9px;width:calc(100% - 24px);
+  background:var(--pierre-h);border:1px solid var(--trait);color:var(--doux);
+  font-family:inherit;font-size:.78rem;letter-spacing:.04em;
+  -webkit-app-region:no-drag;transition:.15s}
+.discord:hover{border-color:#5865F2;color:#8891f5;background:rgba(88,101,242,.09)}
+.discord svg{flex-shrink:0}
+
+/* ---------------- panneau d'actualites ----------------
+   Chaque encart ouvre la page complete : le titre seul ne suffisait pas, on
+   voulait lire la suite. */
+.actus h2{display:flex;align-items:baseline;justify-content:space-between}
+.actus .tout{background:none;border:0;cursor:pointer;font-family:inherit;
+  font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--faible);padding:0}
+.actus .tout:hover{color:var(--eclat);text-decoration:underline}
+.actu{cursor:pointer;border-radius:3px;transition:.15s}
+.actu:hover{background:var(--pierre-h)}
+.actu:focus-visible{outline:2px solid var(--sarcelle);outline-offset:2px}

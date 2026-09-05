@@ -320,6 +320,7 @@ async function verifierPack() {
    donnees distantes (voir electron/contenu.js). Le code du guide, lui, reste
    toujours celui embarque dans l'application. */
 const DOCUMENTS = {
+  actus:   { titre: 'Actualités', fichier: 'documents/actualites.html' },
   guide:   { titre: 'Guide des boss', fichier: 'documents/guide-boss.html' },
   touches: { titre: 'Toutes les touches', fichier: 'documents/touches.html' },
 };
@@ -360,6 +361,14 @@ function afficherActus(liste) {
     const t = document.createElement('div'); t.className = 't'; t.textContent = n.titre;
     const j = document.createElement('div'); j.className = 'd'; j.textContent = n.date;
     d.append(t, j); el.append(v, d);
+    // L'encart n'est qu'un aperçu : il mene a l'article entier.
+    el.tabIndex = 0;
+    el.setAttribute('role', 'button');
+    el.title = 'Lire l’article';
+    el.addEventListener('click', () => onglet('actus'));
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onglet('actus'); }
+    });
     $('listeActus').append(el);
   }
 }
@@ -377,9 +386,13 @@ function afficherActus(liste) {
   window.launcher.contenu().then((ct) => {
     if (ct.actualites && ct.actualites.length) afficherActus(ct.actualites);
     if (ct.guide) DOCUMENTS.guide.fichier = ct.guide;
+    if (ct.pageActus) DOCUMENTS.actus.fichier = ct.pageActus;
     console.info('[contenu] actualités : %s | guide : %s',
                  ct.source, ct.guide ? 'à jour' : 'embarqué');
   }).catch((e) => console.warn('[contenu]', e && e.message));
+
+  $('toutVoir').addEventListener('click', (e) => { e.stopPropagation(); onglet('actus'); });
+  $('discord').addEventListener('click', () => window.launcher.ouvrirLien(c.discord));
 
   for (const el of document.querySelectorAll('[data-onglet]')) {
     el.addEventListener('click', (e) => { e.preventDefault(); onglet(el.dataset.onglet); });

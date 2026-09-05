@@ -1,7 +1,7 @@
 {
   "name": "epicfight-side-launcher",
   "productName": "Epicfight Side",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Launcher du serveur Epicfight Side",
   "main": "electron/main.js",
   "author": "Mouyou",

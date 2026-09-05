@@ -2,16 +2,40 @@
  {
   "titre": "Le Roi Déchu se réveille",
   "date": "03/09/2026",
-  "couleur": "linear-gradient(140deg,#305088,#202848)"
+  "couleur": "linear-gradient(140deg,#305088,#202848)",
+  "resume": "Une quête complète ouvre le serveur : 29 pièces à rapporter, 5 gemmes à reprendre, et un Serviteur qui se souvient de ce que vous lui répondez.",
+  "corps": [
+   "Le Roi dort depuis quarante ans. Le royaume a tenté un rituel d'invocation pour le réveiller ; la malédiction ne s'est pas dissipée, elle s'est brisée. Ses éclats sont partis se loger dans tout ce qui respire.",
+   "Chaque boss du modpack porte désormais une **Pièce Maudite**. Il y en a 29 à rapporter au Serviteur, dans la chapelle. Tous les 6 rendus environ, la fonte donne une **Gemme** — mais quelqu'un s'en empare avant vous, et il faut aller la reprendre. Cinq gemmes, cinq porteurs.",
+   "Ce n'est pas qu'un compteur. Chaque pièce rendue ouvre un dialogue écrit pour ce boss précis : le Serviteur reconnaît la pièce, raconte ce qu'il sait, et vous pose parfois une question. Vos réponses comptent — il tient un registre invisible de ce que vous lui dites, et il finit par vous en donner plus, ou moins.",
+   "Une fois les cinq gemmes au cercle, la cage s'ouvre. Ce qui se lève porte le nom du Roi. Ce n'est pas forcément lui.",
+   "Le guide des boss du launcher vous dit où trouver chacun des 37 et comment l'invoquer."
+  ]
  },
  {
-  "titre": "Les arènes gagnent quatre thèmes",
+  "titre": "Les arènes de la finale",
   "date": "01/09/2026",
-  "couleur": "linear-gradient(140deg,#388888,#1B3A3A)"
+  "couleur": "linear-gradient(140deg,#388888,#1B3A3A)",
+  "resume": "Le combat final ne se déroule plus là où vous vous trouvez : le serveur construit une arène dédiée et vous y téléporte.",
+  "corps": [
+   "Affronter la fin de la quête au milieu d'une base posait deux problèmes : le décor n'était jamais à la hauteur du moment, et les dégâts collatéraux non plus.",
+   "Le serveur monte maintenant une arène pour l'occasion, vous y envoie, et fait apparaître l'adversaire à l'autre bout. Ce qui s'y passe reste dans l'arène.",
+   "Si vous en ressortez sans l'avoir emporté — mort, fuite ou déconnexion — le Serviteur le remarque et vous propose de rouvrir la porte. Il ne vous jugera pas trop fort."
+  ]
  },
  {
-  "titre": "Nouvelles touches : garde et esquive dédiées",
+  "titre": "Garde et esquive ont enfin leurs touches",
   "date": "30/08/2026",
-  "couleur": "linear-gradient(140deg,#3A2E5A,#1A1428)"
+  "couleur": "linear-gradient(140deg,#3A2E5A,#1A1428)",
+  "resume": "Le combat d'Epic Fight demande quatre gestes. Ils ont maintenant quatre touches dédiées, sans conflit avec le reste du modpack.",
+  "corps": [
+   "Le combat du serveur n'est plus celui de Minecraft. Quatre gestes le résument, et ils méritaient de vraies touches :",
+   "**F** — la garde. Maintenez pour bloquer.",
+   "**Bouton souris 4** — l'esquive. C'est elle qui vous sauvera le plus souvent.",
+   "**Bouton souris 5** — verrouiller une cible.",
+   "**R** — basculer entre le mode combat et le mode vanilla, pour miner tranquillement.",
+   "Le reste a été réparti pour qu'aucune commande de combat ne tombe sur une touche déjà prise par un menu. Quatre chevauchements subsistent, tous documentés dans la page des touches : ils concernent JEI et Jade, jamais deux actions de combat entre elles.",
+   "Le clavier de cette page est cliquable : appuyez sur une touche à l'écran pour sauter à ce qu'elle fait."
+  ]
  }
 ]

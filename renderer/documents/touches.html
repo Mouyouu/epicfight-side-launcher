@@ -352,6 +352,87 @@ body{background:transparent}
 .wrap{max-width:none;padding:4px 4px 40px}
 header{border-bottom-color:var(--trait)}
 h1,h2,h3{letter-spacing:.06em}
+
+/* ---- clavier cliquable ----------------------------------------------------
+   Une touche qui porte une action mene a sa ligne dans les tableaux du bas.
+   Les touches sans action restent inertes : rien n'invite a cliquer dessus. */
+.kb-key[title]{cursor:pointer}
+.kb-key[title]:hover{outline:2px solid currentColor;outline-offset:1px}
+.kb-key[title]:focus-visible{outline:2px solid var(--acier);outline-offset:2px}
+tr.vise > td{background:color-mix(in srgb, var(--acier) 22%, transparent)}
+tr.vise > td:first-child{box-shadow:inset 3px 0 0 var(--acier)}
+tr.vise{animation:surligne 2.4s ease-out}
+@keyframes surligne{
+  0%,55%{background:color-mix(in srgb, var(--acier) 30%, transparent)}
+  100%{background:transparent}
+}
+#retourClavier{position:fixed;right:16px;bottom:16px;z-index:9;
+  font:inherit;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;
+  padding:8px 13px;border-radius:999px;cursor:pointer;
+  background:var(--carte);color:var(--encre);border:1px solid var(--trait);
+  box-shadow:0 4px 14px rgba(0,0,0,.18)}
+#retourClavier:hover{border-color:var(--acier);color:var(--acier)}
+@media (prefers-reduced-motion:reduce){tr.vise{animation:none}}
 </style>
+
+<script>
+/* Clique sur une touche du clavier -> sa ligne dans les tableaux du bas.
+
+   La correspondance se fait sur l'ACTION, pas sur le nom de la touche. Le
+   clavier ecrit "Maj" la ou le tableau dit "Maj gauche", et "Ctrl" pour "Ctrl
+   gauche" : comparer les libelles aurait rate ces cas. L'attribut title d'une
+   touche contient exactement les actions listees dans les tableaux, separees
+   par " · ". C'est une jointure exacte. */
+(function () {
+  const parAction = new Map();
+  for (const tr of document.querySelectorAll('section table tbody tr')) {
+    const td = tr.querySelector('td');
+    if (!td) continue;
+    const nom = td.textContent.trim();
+    if (!parAction.has(nom)) parAction.set(nom, []);
+    parAction.get(nom).push(tr);
+  }
+
+  const retour = document.createElement('button');
+  retour.id = 'retourClavier';
+  retour.type = 'button';
+  retour.hidden = true;
+  retour.textContent = '↑ Revenir au clavier';
+  document.body.append(retour);
+  retour.addEventListener('click', () => {
+    document.querySelector('.kb').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    retour.hidden = true;
+  });
+
+  let precedentes = [];
+  function viser(touche) {
+    const actions = (touche.getAttribute('title') || '').split(' · ');
+    const cibles = [];
+    for (const a of actions) for (const tr of (parAction.get(a.trim()) || [])) cibles.push(tr);
+
+    for (const tr of precedentes) tr.classList.remove('vise');
+    precedentes = cibles;
+    if (!cibles.length) return;
+
+    // on relance l'animation meme si c'est la meme ligne qu'au clic precedent
+    for (const tr of cibles) { tr.classList.remove('vise'); void tr.offsetWidth; tr.classList.add('vise'); }
+    cibles[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    retour.hidden = false;
+  }
+
+  for (const t of document.querySelectorAll('.kb-key[title]')) {
+    const actions = (t.getAttribute('title') || '').split(' · ');
+    // Une touche dont aucune action n'existe dans les tableaux ne doit pas
+    // faire croire qu'elle est cliquable : on lui retire son curseur.
+    if (!actions.some((a) => parAction.has(a.trim()))) { t.removeAttribute('title'); continue; }
+    t.tabIndex = 0;
+    t.setAttribute('role', 'button');
+    t.addEventListener('click', () => viser(t));
+    t.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); viser(t); }
+    });
+  }
+})();
+</script>
 </body>
 </html>

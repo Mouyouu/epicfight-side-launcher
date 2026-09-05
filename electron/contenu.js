@@ -87,56 +87,65 @@ const actusValides = (v) => Array.isArray(v) && v.every(
 
 async function actualites() {
   const r = await recuperer('actualites.json', actusValides, 'contenu/actualites.json');
-  // Trois suffisent : le panneau n'en montre pas plus sans devenir une liste.
-  return { liste: (r.valeur || config.ACTUALITES).slice(0, 3), source: r.source };
+  // La liste COMPLETE : c'est la page des actualites qui les affiche toutes.
+  // Le panneau d'accueil n'en garde que trois, mais c'est son affaire.
+  return { liste: r.valeur || config.ACTUALITES, source: r.source };
 }
 
-// ------------------------------------------------------------------ guide
-
-const guideValide = (v) => Array.isArray(v) && v.length > 0
-  && v.every((b) => b && typeof b.id === 'string' && typeof b.nom === 'string');
+// ------------------------------------------------------------------ pages
 
 /**
- * Assemble le guide : gabarit embarque + donnees distantes.
+ * Assemble une page : gabarit EMBARQUE + donnees.
  *
- * Le resultat est ecrit dans les donnees de l'application, pas dans le dossier
- * d'installation - celui-ci est en lecture seule une fois le launcher installe.
+ * Le gabarit porte tout le code et ne vient jamais du reseau. Seul le bloc
+ * <script type="application/json"> est remplace. Le resultat est ecrit dans les
+ * donnees de l'application : le dossier d'installation est en lecture seule une
+ * fois le launcher installe.
+ *
  * Rend le chemin du fichier a afficher, ou null pour garder celui d'origine.
  */
-async function guide() {
-  const gabarit = path.join(racineEmbarquee, 'renderer', 'documents', 'guide-boss.html');
-  if (!fs.existsSync(gabarit)) return null;
-
-  const r = await recuperer('guide-boss.json', guideValide, 'contenu/guide-boss.json');
-  if (!r.valeur || r.source === 'embarqué') return null;   // le gabarit suffit
-
+function assembler(nomGabarit, donnees) {
+  const gabarit = path.join(racineEmbarquee, 'renderer', 'documents', nomGabarit);
+  if (!fs.existsSync(gabarit) || !donnees) return null;
   try {
     const html = fs.readFileSync(gabarit, 'utf8');
     const marque = '<script id="donnees" type="application/json">';
     const debut = html.indexOf(marque);
-    const fin = html.indexOf('</script>', debut);
+    const fin = html.indexOf('</' + 'script>', debut);
     if (debut < 0 || fin < 0) return null;
 
     // On echappe "<" : une donnee contenant "</script>" fermerait le bloc et le
     // reste serait interprete comme du HTML. C'est la seule injection possible
     // ici, et elle est fermee.
-    const donnees = JSON.stringify(r.valeur).replace(/</g, '\\u003c');
-    const sortie = path.join(dossier, 'guide-boss.html');
-    fs.writeFileSync(sortie,
-      html.slice(0, debut + marque.length) + donnees + html.slice(fin), 'utf8');
-
-    // Les icones sont referencees en relatif (img/…) : sans elles, les vignettes
-    // seraient cassees dans le fichier assemble.
-    lierImages(path.dirname(gabarit));
+    const json = JSON.stringify(donnees).replace(/</g, '\\u003c');
+    const sortie = path.join(dossier, nomGabarit);
+    fs.writeFileSync(sortie, html.slice(0, debut + marque.length) + json + html.slice(fin), 'utf8');
     return sortie;
   } catch (e) {
-    console.warn('[contenu] assemblage du guide impossible : %s', e.message);
+    console.warn('[contenu] assemblage de %s impossible : %s', nomGabarit, e.message);
     return null;
   }
 }
 
-function lierImages(sourceImg) {
-  const src = path.join(sourceImg, 'img');
+const guideValide = (v) => Array.isArray(v) && v.length > 0
+  && v.every((b) => b && typeof b.id === 'string' && typeof b.nom === 'string');
+
+async function guide() {
+  const r = await recuperer('guide-boss.json', guideValide, 'contenu/guide-boss.json');
+  // Le gabarit embarque contient deja ces donnees-la : rien a assembler.
+  if (!r.valeur || r.source === 'embarqué') return null;
+  const chemin = assembler('guide-boss.html', r.valeur);
+  // Les icones sont referencees en relatif (img/…) : sans elles, les vignettes
+  // seraient cassees dans le fichier assemble.
+  if (chemin) lierImages(path.join(racineEmbarquee, 'renderer', 'documents'));
+  return chemin;
+}
+
+/** La page des actualites est TOUJOURS assemblee : son gabarit est vide. */
+const pageActus = (liste) => assembler('actualites.html', liste);
+
+function lierImages(sourceDocs) {
+  const src = path.join(sourceDocs, 'img');
   const dst = path.join(dossier, 'img');
   if (!fs.existsSync(src) || fs.existsSync(dst)) return;
   try {
@@ -147,4 +156,4 @@ function lierImages(sourceImg) {
   } catch { /* les vignettes ne valent pas un echec */ }
 }
 
-module.exports = { ouvrir, actualites, guide };
+module.exports = { ouvrir, actualites, guide, pageActus };
