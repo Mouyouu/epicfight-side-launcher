@@ -17,6 +17,7 @@ const ping = require('./ping');
 const pack = require('./pack');
 const installateur = require('./installateur');
 const lancement = require('./lancement');
+const maj = require('./maj');
 
 const DOSSIER = path.join(app.getPath('appData'), 'EpicfightSide');
 const RACINE_JEU = path.join(DOSSIER, 'jeu');
@@ -100,6 +101,9 @@ ipcMain.handle('app:config', () => ({
 }));
 
 ipcMain.handle('app:dossier', () => RACINE_JEU);
+
+ipcMain.handle('maj:etat', () => maj.etat());
+ipcMain.handle('maj:installer', () => maj.installer());
 ipcMain.handle('app:ouvrirDossier', () => {
   fs.mkdirSync(RACINE_JEU, { recursive: true });
   return shell.openPath(RACINE_JEU);
@@ -213,6 +217,10 @@ else {
 
   app.whenReady().then(async () => {
     creerFenetre();
+
+    // Mise a jour du launcher : lancee apres la fenetre pour que l'interface puisse
+    // recevoir les evenements, et jamais bloquante - une panne ici n'empeche pas de jouer.
+    maj.preparer(dire);
 
     // reconnexion silencieuse : le joueur ne repasse par Microsoft que si le jeton a expire
     const rafraichir = relireSession();

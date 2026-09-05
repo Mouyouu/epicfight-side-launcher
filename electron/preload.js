@@ -33,6 +33,10 @@ contextBridge.exposeInMainWorld('launcher', {
   ouvrirDossier: () => invoquer('app:ouvrirDossier'),
   ouvrirLien: (url) => invoquer('app:ouvrirLien', url),
 
+  // --- mise a jour du launcher lui-meme (pas du modpack)
+  majEtat: () => invoquer('maj:etat'),
+  majInstaller: () => invoquer('maj:installer'),
+
   // --- preferences locales
   lireReglages: () => invoquer('reglages:lire'),
   ecrireReglages: (r) => invoquer('reglages:ecrire', r),

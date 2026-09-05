@@ -152,6 +152,36 @@ async function posterTete(compte) {
   }
 }
 
+// ------------------------------------------------------------------ mise a jour du launcher
+
+/* Mise a jour de l'APPLICATION, a ne pas confondre avec celle du modpack.
+   Elle est volontairement discrete : une pastille dans la barre d'etat, jamais une
+   fenetre qui coupe le joueur. Tant qu'elle n'est pas prete, elle n'exige rien de lui ;
+   quand elle l'est, un clic redemarre - et sinon elle s'appliquera a la fermeture. */
+function majLauncher(d) {
+  const zone = $('majLauncher');
+  if (!zone) return;
+  if (d.phase === 'ajour') { zone.hidden = true; return; }
+
+  zone.hidden = false;
+  if (d.phase === 'disponible') {
+    zone.className = 'maj';
+    zone.textContent = 'Mise à jour ' + d.version + ' trouvée…';
+  } else if (d.phase === 'telechargement') {
+    zone.className = 'maj';
+    zone.textContent = 'Téléchargement de la mise à jour — ' + d.pct + ' %';
+  } else if (d.phase === 'prete') {
+    zone.className = 'maj prete';
+    zone.textContent = 'Version ' + d.version + ' prête — cliquez pour redémarrer';
+    zone.onclick = () => window.launcher.majInstaller();
+  } else if (d.phase === 'erreur') {
+    zone.className = 'maj erreur';
+    zone.textContent = 'Mise à jour indisponible';
+    zone.title = d.message || '';
+    console.warn('[maj]', d.message);
+  }
+}
+
 // ------------------------------------------------------------------ compte
 
 function afficherCompte(compte) {
@@ -194,6 +224,7 @@ const LIBELLES = {
 function progresser(d) {
   if (d.etape === 'session') return afficherCompte(d.compte);
   if (d.etape === 'journal') return;                   // sortie du jeu, non affichee
+  if (d.etape === 'maj') return majLauncher(d);
 
   if (d.etape === 'termine') {
     etat.occupe = false;

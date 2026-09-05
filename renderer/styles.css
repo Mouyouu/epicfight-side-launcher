@@ -218,3 +218,13 @@ nav a:focus-visible{outline:1px solid var(--eclat);outline-offset:-2px}
 .fermer-doc:focus-visible{outline:2px solid var(--eclat);outline-offset:-2px}
 .lecteur iframe{flex:1;width:100%;border:0;background:transparent;min-height:0}
 @media(max-width:900px){.lecteur{min-height:340px}}
+
+/* ---------------- mise a jour du launcher ----------------
+   Volontairement petite : elle informe, elle n'interrompt pas. Elle ne devient
+   cliquable qu'une fois la version telechargee, pour qu'un clic ne tombe jamais
+   dans le vide. */
+.maj{margin-top:6px;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--faible);transition:color .15s}
+.maj.prete{color:var(--eclat);cursor:pointer;-webkit-app-region:no-drag}
+.maj.prete:hover{text-decoration:underline}
+.maj.erreur{color:var(--faible);cursor:help}
