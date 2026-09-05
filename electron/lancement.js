@@ -51,16 +51,63 @@ function construireClasspath(racine, chaine) {
   return cp.join(SEPARATEUR);
 }
 
+const remplacer = (a, valeurs) =>
+  a.replace(/\$\{(\w+)\}/g, (t, c) => (c in valeurs ? valeurs[c] : t));
+
+/**
+ * Une regle du client.json de Mojang n'est retenue que si TOUTES ses conditions le sont.
+ *
+ * Le "features" est le point qui manquait. Mojang conditionne certains arguments a des
+ * fonctionnalites optionnelles du launcher :
+ *
+ *   {"rules":[{"action":"allow","features":{"has_custom_resolution":true}}],
+ *    "value":["--width","${resolution_width}","--height","${resolution_height}"]}
+ *
+ * Cette regle n'a pas de "os", donc l'ancien test la laissait passer. Le jeu recevait
+ * "--width ${resolution_width}" et refusait de demarrer :
+ *   Cannot parse argument '${resolution_width}' of option width
+ * Nous n'activons aucune de ces fonctionnalites : toute regle qui en exige une est ecartee.
+ */
+function regleRetenue(r) {
+  if (r.action !== 'allow') return false;
+  if (r.os && r.os.name !== (estWindows ? 'windows' : 'linux')) return false;
+  if (r.features && Object.values(r.features).some(Boolean)) return false;
+  return true;
+}
+
 /** Remplace les ${...} des arguments par leurs valeurs. */
 function substituer(args, valeurs) {
   const sortie = [];
   for (const a of args) {
     if (typeof a === 'string') {
-      sortie.push(a.replace(/\$\{(\w+)\}/g, (t, c) => (c in valeurs ? valeurs[c] : t)));
-    } else if (a && Array.isArray(a.value) && (!a.rules || a.rules.every(
-      (r) => r.action === 'allow' && (!r.os || r.os.name === (estWindows ? 'windows' : 'linux'))))) {
-      for (const v of a.value) sortie.push(v);
+      sortie.push(remplacer(a, valeurs));
+    } else if (a && Array.isArray(a.value)
+               && (!a.rules || a.rules.every(regleRetenue))) {
+      // La substitution s'applique AUSSI ici. L'ancienne version poussait les valeurs
+      // brutes, donc un argument conditionnel gardait ses ${...} meme quand il etait
+      // legitimement retenu.
+      for (const v of a.value) sortie.push(remplacer(String(v), valeurs));
     }
+  }
+  return sortie;
+}
+
+/**
+ * Dernier filet : on ne transmet jamais au jeu un ${...} non resolu.
+ *
+ * Si une version future de Mojang introduit une variable qu'on ne connait pas, le jeu
+ * refuserait de demarrer avec un message illisible pour le joueur. On retire donc la
+ * valeur restee symbolique, et l'option qui la precede - sinon "--width" se retrouverait
+ * sans valeur, ce qui echoue tout autant.
+ */
+function retirerNonResolus(args) {
+  const sortie = [];
+  for (const a of args) {
+    if (typeof a === 'string' && a.includes('${')) {
+      if (sortie.length && /^--/.test(sortie[sortie.length - 1])) sortie.pop();
+      continue;
+    }
+    sortie.push(a);
   }
   return sortie;
 }
@@ -120,6 +167,7 @@ function lancer({ racine, java, idForge, compte, assetIndex, ram = RAM.max,
       jeu = jeu.concat(substituer(p.minecraftArguments.split(' '), valeurs));
     }
   }
+  jeu = retirerNonResolus(jeu);
   if (rejoindre) jeu.push('--quickPlayMultiplayer', `${SERVEUR.hote}:${SERVEUR.port}`);
 
   const enfant = spawn(java, [...jvm, principal, ...jeu], {
