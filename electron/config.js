@@ -18,7 +18,13 @@ module.exports = {
   // --- distribution du pack
   // Le manifeste liste chaque fichier avec sa taille et son sha1. Le launcher ne
   // retelecharge que ce qui a change : c'est ce qui rend les mises a jour legeres.
-  MANIFESTE_URL: 'https://github.com/Mouyouu/epicfight-side-launcher/releases/latest/download/manifeste.json',
+  //
+  // TAG FIXE "pack", et surtout PAS releases/latest.
+  // "latest" designe la derniere release du LAUNCHER. Le pack et le launcher
+  // n'evoluent pas au meme rythme : publier la 1.0.1 du launcher faisait pointer
+  // le manifeste vers une release qui ne le contenait pas, d'ou un 404 a
+  // l'installation. Un tag dedie les separe une bonne fois.
+  MANIFESTE_URL: 'https://github.com/Mouyouu/epicfight-side-launcher/releases/download/pack/manifeste.json',
 
   // --- memoire allouee au jeu (Go)
   RAM: { min: 4, max: 8 },

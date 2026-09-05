@@ -84,6 +84,12 @@ const aplatir = (rel) => rel.replace(/[\\/]/g, '__').replace(/ /g, '-');
  * Seuls les dossiers caches sautent : ce sont des caches que les mods regenerent
  * (mods/.connector, config/worldedit/.archive-unpack).
  */
+/* Les journaux sautent OU QU'ILS SOIENT, pas seulement dans logs/.
+   Releve dans l'instance reelle : config/mobengine/debug.log pesait 6,5 Mo de traces
+   de tick. EXCLUS ne regarde que la racine, donc ce fichier partait chez chaque
+   joueur - du poids pur, et le detail de mes sessions de mise au point. */
+const estJournal = (nom) => /\.(log|log\.\d+|log\.gz)$/i.test(nom);
+
 function parcourir(racine, sousDossier, sortie) {
   const abs = path.join(racine, sousDossier);
   if (!fs.existsSync(abs)) return;
@@ -91,7 +97,7 @@ function parcourir(racine, sousDossier, sortie) {
     if (e.name.startsWith('.')) continue;
     const rel = path.posix.join(sousDossier.replace(/\\/g, '/'), e.name);
     if (e.isDirectory()) parcourir(racine, path.join(sousDossier, e.name), sortie);
-    else if (e.isFile()) sortie.push(rel);
+    else if (e.isFile() && !estJournal(e.name)) sortie.push(rel);
   }
 }
 
@@ -140,7 +146,9 @@ function main() {
     minecraft: '1.20.1',
     forge: '47.4.13',
     // Le launcher remplace <BASE> par l'URL de la release avant de telecharger.
-    base: 'https://github.com/Mouyouu/epicfight-side-launcher/releases/download/v' + version + '/',
+    // Tag fixe : le pack se republie sur le meme tag, sans toucher aux releases
+    // du launcher. Voir la note dans electron/config.js.
+    base: 'https://github.com/Mouyouu/epicfight-side-launcher/releases/download/pack/',
     total: { fichiers: entrees.length, octets },
     fichiers: entrees,
   };
