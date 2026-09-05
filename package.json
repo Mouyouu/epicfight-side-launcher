@@ -54,7 +54,8 @@
     "publish": {
       "provider": "github",
       "owner": "Mouyouu",
-      "repo": "epicfight-side-launcher"
+      "repo": "epicfight-side-launcher",
+      "releaseType": "release"
     }
   },
   "dependencies": {
