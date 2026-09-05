@@ -24,6 +24,9 @@ contextBridge.exposeInMainWorld('launcher', {
   // --- serveur
   etatServeur: () => invoquer('serveur:etat'),
 
+  // --- contenu editorial (actualites, guide) mis a jour sans reinstaller
+  contenu: () => invoquer('app:contenu'),
+
   // --- pack et jeu
   config: () => invoquer('app:config'),
   verifier: () => invoquer('pack:verifier'),

@@ -18,6 +18,7 @@ const pack = require('./pack');
 const installateur = require('./installateur');
 const lancement = require('./lancement');
 const maj = require('./maj');
+const contenu = require('./contenu');
 
 const DOSSIER = path.join(app.getPath('appData'), 'EpicfightSide');
 const RACINE_JEU = path.join(DOSSIER, 'jeu');
@@ -126,6 +127,14 @@ ipcMain.handle('app:config', () => ({
 }));
 
 ipcMain.handle('app:dossier', () => RACINE_JEU);
+
+/* Contenu editorial : actualites et guide des boss.
+   Rendu APRES le config initial, car il peut attendre le reseau. L'interface
+   affiche d'abord ce qui est embarque, puis remplace si mieux est arrive. */
+ipcMain.handle('app:contenu', async () => {
+  const [actus, guide] = await Promise.all([contenu.actualites(), contenu.guide()]);
+  return { actualites: actus.liste, source: actus.source, guide };
+});
 
 ipcMain.handle('maj:etat', () => maj.etat());
 ipcMain.handle('maj:installer', () => maj.installer());
@@ -250,6 +259,7 @@ else {
     // Mise a jour du launcher : lancee apres la fenetre pour que l'interface puisse
     // recevoir les evenements, et jamais bloquante - une panne ici n'empeche pas de jouer.
     maj.preparer(dire);
+    contenu.ouvrir(DOSSIER, app.getAppPath());
 
     // reconnexion silencieuse : le joueur ne repasse par Microsoft que si le jeton a expire
     const rafraichir = relireSession();

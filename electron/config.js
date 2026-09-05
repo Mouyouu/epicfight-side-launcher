@@ -26,6 +26,12 @@ module.exports = {
   // l'installation. Un tag dedie les separe une bonne fois.
   MANIFESTE_URL: 'https://github.com/Mouyouu/epicfight-side-launcher/releases/download/pack/manifeste.json',
 
+  // --- contenu editorial, mis a jour sans reinstaller le launcher
+  // Actualites et donnees du guide des boss. Meme tag fixe que le pack : un seul
+  // endroit a mettre a jour. Seules des DONNEES sont telechargees ; le code du
+  // guide reste embarque dans l'application (voir electron/contenu.js).
+  CONTENU_BASE: 'https://github.com/Mouyouu/epicfight-side-launcher/releases/download/pack/',
+
   // --- memoire allouee au jeu (Go)
   RAM: { min: 4, max: 8 },
 

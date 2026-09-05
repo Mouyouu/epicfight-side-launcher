@@ -316,6 +316,9 @@ async function verifierPack() {
 
 // ------------------------------------------------------------------ navigation
 
+/* "fichier" peut etre remplace au demarrage par la version assemblee avec les
+   donnees distantes (voir electron/contenu.js). Le code du guide, lui, reste
+   toujours celui embarque dans l'application. */
 const DOCUMENTS = {
   guide:   { titre: 'Guide des boss', fichier: 'documents/guide-boss.html' },
   touches: { titre: 'Toutes les touches', fichier: 'documents/touches.html' },
@@ -332,7 +335,10 @@ function onglet(nom) {
     $('titreDoc').textContent = doc.titre;
     const cadre = $('cadreDoc');
     // on ne recharge pas un document deja affiche : le joueur garde sa position
-    if (!cadre.src.endsWith(doc.fichier)) cadre.src = doc.fichier;
+    if (cadre.dataset.charge !== doc.fichier) {
+      cadre.dataset.charge = doc.fichier;
+      cadre.src = doc.fichier;
+    }
   }
   for (const a of document.querySelectorAll('nav a[data-onglet]')) {
     if (a.dataset.onglet === nom) a.setAttribute('aria-current', 'page');
@@ -342,13 +348,9 @@ function onglet(nom) {
 
 // ------------------------------------------------------------------ demarrage
 
-(async function demarrer() {
-  const c = await window.launcher.config();
-  document.title = c.nom;
-
-  // actualites : editables dans electron/config.js, pas de service distant a maintenir
-  $('listeActus').innerHTML = '';
-  for (const n of (c.actualites || [])) {
+function afficherActus(liste) {
+  $('listeActus').textContent = '';
+  for (const n of liste) {
     const el = document.createElement('article');
     el.className = 'actu';
     const v = document.createElement('span');
@@ -360,6 +362,24 @@ function onglet(nom) {
     d.append(t, j); el.append(v, d);
     $('listeActus').append(el);
   }
+}
+
+(async function demarrer() {
+  const c = await window.launcher.config();
+  document.title = c.nom;
+
+  // On affiche d'abord les actualites embarquees : le panneau n'est jamais vide,
+  // meme hors ligne.
+  afficherActus(c.actualites || []);
+
+  /* Le contenu editorial arrive apres, car il peut attendre le reseau. Rien ici
+     n'est bloquant : une panne laisse simplement la version embarquee. */
+  window.launcher.contenu().then((ct) => {
+    if (ct.actualites && ct.actualites.length) afficherActus(ct.actualites);
+    if (ct.guide) DOCUMENTS.guide.fichier = ct.guide;
+    console.info('[contenu] actualités : %s | guide : %s',
+                 ct.source, ct.guide ? 'à jour' : 'embarqué');
+  }).catch((e) => console.warn('[contenu]', e && e.message));
 
   for (const el of document.querySelectorAll('[data-onglet]')) {
     el.addEventListener('click', (e) => { e.preventDefault(); onglet(el.dataset.onglet); });

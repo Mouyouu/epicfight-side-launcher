@@ -1,0 +1,7 @@
+mods__sylas_chains-0.1.0-dev.jar
+config__fabric__indigo-renderer.properties
+config__oculus.properties
+config__packetfixer.properties
+config__worldedit__worldedit.properties
+fancymenu_data__last_world.fmdata
+options.txt
