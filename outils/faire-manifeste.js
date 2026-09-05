@@ -57,7 +57,21 @@ const FICHIERS_RACINE = ['custom-log4j2.xml'];
 // Poses une seule fois, jamais ecrases ensuite : ils contiennent nos reglages mais aussi
 // ceux du joueur (sa resolution, son volume). Le launcher offre un bouton pour les
 // reappliquer volontairement.
-const GRAINES = ['options.txt', 'servers.dat'];
+const GRAINES = [
+  'options.txt', 'servers.dat',
+
+  // Reglages CLIENT que le jeu reecrit tout seul en tournant. Mesure sur une
+  // installation reelle apres une partie : ces cinq fichiers avaient change, donc
+  // le launcher croyait le pack perime et proposait "Mettre a jour" au lieu de
+  // "Jouer". Pire, les synchroniser aurait remis a zero le choix de shader du
+  // joueur (oculus) a chaque mise a jour du pack.
+  'config/oculus.properties',
+  'config/epicfight-client.toml',
+  'config/fabric/indigo-renderer.properties',
+  'config/packetfixer.properties',
+  'config/invmove/unrecognized.json',
+  'config/worldedit/worldedit.properties',
+];
 
 // Jamais distribue : donnees personnelles, journaux, mondes, caches.
 const EXCLUS = new Set([
@@ -136,7 +150,10 @@ function main() {
   const fichiers = [];
   for (const d of DOSSIERS) parcourir(instance, d, fichiers);
   for (const f of FICHIERS_RACINE) if (fs.existsSync(path.join(instance, f))) fichiers.push(f);
-  for (const g of GRAINES) if (fs.existsSync(path.join(instance, g))) fichiers.push(g);
+  // Une graine deja ramassee par DOSSIERS ne doit pas etre ajoutee une deuxieme fois.
+  for (const g of GRAINES) {
+    if (fs.existsSync(path.join(instance, g)) && !fichiers.includes(g)) fichiers.push(g);
+  }
 
   const entrees = [];
   let octets = 0;
