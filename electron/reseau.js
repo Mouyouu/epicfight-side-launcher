@@ -47,7 +47,19 @@ async function fichier(url, destination, { sha1: attendu = null, onOctets = null
   fs.mkdirSync(path.dirname(destination), { recursive: true });
   const tmp = destination + '.part';
   const rep = await ouvrir(url, {}, MAX_REDIR);
-  const h = crypto.createHash('sha1');
+
+  /* L'algorithme se deduit de la LONGUEUR de l'empreinte attendue, et pas d'un
+     reglage a l'appel.
+
+     Pourquoi : les deux sources du launcher ne signent pas pareil. Mojang publie du
+     SHA-1 (40 caracteres), Adoptium du SHA-256 (64). Le code calculait un SHA-1 pour
+     tout le monde, donc le JRE echouait systematiquement sur "Empreinte incorrecte
+     pour jre17.zip" - une verification qui ne pouvait pas reussir, ce qui est pire
+     qu'une verification absente : elle bloque sans rien protreger.
+
+     Deduire de la donnee elle-meme evite qu'un futur appel oublie de le preciser. */
+  const algo = (attendu && attendu.length === 64) ? 'sha256' : 'sha1';
+  const h = crypto.createHash(algo);
   const sortie = fs.createWriteStream(tmp);
 
   await new Promise((resoudre, rejeter) => {
@@ -59,9 +71,11 @@ async function fichier(url, destination, { sha1: attendu = null, onOctets = null
   });
 
   const obtenu = h.digest('hex');
-  if (attendu && obtenu !== attendu) {
+  if (attendu && obtenu !== String(attendu).toLowerCase()) {
     fs.unlinkSync(tmp);
-    throw new Error(`Empreinte incorrecte pour ${path.basename(destination)}`);
+    // Le message dit QUOI comparer : sans ca, un echec d'empreinte est indebogable.
+    throw new Error(`Empreinte incorrecte pour ${path.basename(destination)}`
+      + ` (${algo} obtenu ${obtenu}, attendu ${attendu})`);
   }
   fs.renameSync(tmp, destination);
   return obtenu;

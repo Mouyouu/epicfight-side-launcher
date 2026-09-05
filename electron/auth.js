@@ -154,7 +154,15 @@ async function profilMinecraft(jetonMicrosoft) {
     uuid: profil.id,
     jeton: mc.access_token,
     // Les textures viennent du profil officiel : pas de service d'avatars tiers.
-    peau: (profil.skins || []).find((s) => s.state === 'ACTIVE')?.url || null,
+    //
+    // Le passage en https n'est pas cosmetique. Mojang renvoie ces adresses en HTTP
+    // (verifie dans un textureRaw reel : "http://textures.minecraft.net/texture/..."),
+    // alors que la politique de securite de la fenetre n'autorise que
+    //   img-src 'self' data: https://textures.minecraft.net
+    // L'image etait donc bloquee avant la moindre requete, silencieusement, et le
+    // joueur ne voyait jamais sa tete. Le domaine sert le meme fichier en https.
+    peau: ((profil.skins || []).find((s) => s.state === 'ACTIVE')?.url || null)
+      ?.replace(/^http:\/\//, 'https://') || null,
   };
 }
 

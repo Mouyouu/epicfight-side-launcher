@@ -93,6 +93,9 @@ function alerter(texte, genre = 'erreur') {
 async function dessinerTete(url) {
   const img = new Image();
   img.crossOrigin = 'anonymous';
+  // Ceinture et bretelles : la politique de securite de la page refuse le http, et une
+  // session deja ouverte peut encore porter une ancienne adresse en http.
+  url = String(url).replace(/^http:\/\//, 'https://');
   await new Promise((ok, ko) => {
     // Sans delai, une texture qui ne repond jamais laisse un carre vide pour toujours,
     // sans le moindre message. On prefere echouer vite et le dire.
