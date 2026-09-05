@@ -83,7 +83,16 @@ function sha1(fichier) {
  * GitHub remplace les espaces par des points dans le nom des assets : on les retire
  * nous-memes, sinon le manifeste ne retrouverait plus le fichier.
  */
-const aplatir = (rel) => rel.replace(/[\\/]/g, '__').replace(/ /g, '-');
+const aplatir = (rel) => rel
+  .replace(/[\\/]/g, '__')
+  .replace(/ /g, '-')
+  // Les accents et tout caractere non-ASCII sont retires.
+  // Releve a l'envoi : "emotes/Celebração do GOAT.emotecraft" etait refuse par GitHub,
+  // et 7 autres fichiers avec lui. Un asset dont le nom est mange a l'envoi ne serait
+  // plus retrouve par le manifeste : le joueur aurait un 404 sur ce seul fichier, a
+  // l'installation, sans que rien ne l'ait annonce a la publication.
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^A-Za-z0-9._-]/g, '-');
 
 /**
  * Une fois DANS un dossier de DOSSIERS, on prend tout. EXCLUS ne sert qu'a documenter ce
