@@ -93,7 +93,14 @@ function alerter(texte, genre = 'erreur') {
 async function dessinerTete(url) {
   const img = new Image();
   img.crossOrigin = 'anonymous';
-  await new Promise((ok, ko) => { img.onload = ok; img.onerror = ko; img.src = url; });
+  await new Promise((ok, ko) => {
+    // Sans delai, une texture qui ne repond jamais laisse un carre vide pour toujours,
+    // sans le moindre message. On prefere echouer vite et le dire.
+    const minuteur = setTimeout(() => ko(new Error('texture injoignable apres 8 s')), 8000);
+    img.onload = () => { clearTimeout(minuteur); ok(); };
+    img.onerror = () => { clearTimeout(minuteur); ko(new Error('texture refusee : ' + url)); };
+    img.src = url;
+  });
   const T = 64;
   const c = document.createElement('canvas');
   c.width = c.height = T;
@@ -101,7 +108,48 @@ async function dessinerTete(url) {
   x.imageSmoothingEnabled = false;
   x.drawImage(img, 8, 8, 8, 8, 0, 0, T, T);
   x.drawImage(img, 40, 8, 8, 8, 0, 0, T, T);
+  return c.toDataURL();   // leve une SecurityError si la source n'autorise pas le CORS
+}
+
+/* Vignette de repli : l'initiale du pseudo sur une couleur tiree de l'uuid.
+   Elle existe pour qu'il y ait TOUJOURS quelque chose a cet endroit. Un carre vide
+   ne dit rien ; une initiale dit au moins qui est connecte. */
+function teteDeSecours(pseudo, uuid) {
+  const T = 64;
+  const c = document.createElement('canvas');
+  c.width = c.height = T;
+  const x = c.getContext('2d');
+  let h = 0;
+  for (const ch of String(uuid || pseudo || '?')) h = (h * 31 + ch.charCodeAt(0)) % 360;
+  x.fillStyle = `hsl(${h} 32% 26%)`;
+  x.fillRect(0, 0, T, T);
+  x.fillStyle = `hsl(${h} 55% 78%)`;
+  x.font = '600 34px Barlow, system-ui, sans-serif';
+  x.textAlign = 'center';
+  x.textBaseline = 'middle';
+  x.fillText((pseudo || '?').slice(0, 1).toUpperCase(), T / 2, T / 2 + 2);
   return c.toDataURL();
+}
+
+/* Pose la tete, et n'echoue jamais en silence.
+   Trois causes possibles, toutes traitees : le profil ne renvoie aucune peau active,
+   la texture ne se charge pas, ou le canvas refuse d'etre lu. Dans les trois cas on
+   affiche le repli et on ecrit la raison exacte dans la console et dans l'infobulle. */
+async function posterTete(compte) {
+  const img = $('tete');
+  img.alt = compte.pseudo || '';
+  img.title = compte.pseudo || '';
+  try {
+    if (!compte.peau) {
+      throw new Error("le profil Minecraft ne renvoie aucune peau active (skins[] vide)");
+    }
+    img.src = await dessinerTete(compte.peau);
+  } catch (e) {
+    const raison = (e && e.message) ? e.message : String(e);
+    console.warn('[tete] repli sur le monogramme :', raison);
+    img.src = teteDeSecours(compte.pseudo, compte.uuid);
+    img.title = compte.pseudo + ' — peau indisponible : ' + raison;
+  }
 }
 
 // ------------------------------------------------------------------ compte
@@ -112,7 +160,7 @@ function afficherCompte(compte) {
   app.dataset.vue = compte ? 'jeu' : 'connexion';
   if (compte) {
     $('pseudo').textContent = compte.pseudo;
-    if (compte.peau) dessinerTete(compte.peau).then((d) => { $('tete').src = d; }).catch(() => {});
+    posterTete(compte);
   }
   majBouton();
 }
@@ -279,12 +327,6 @@ function onglet(nom) {
     $('listeActus').append(el);
   }
 
-  for (const el of document.querySelectorAll('[data-lien]')) {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.launcher.ouvrirLien(c.liens[el.dataset.lien]);
-    });
-  }
   for (const el of document.querySelectorAll('[data-onglet]')) {
     el.addEventListener('click', (e) => { e.preventDefault(); onglet(el.dataset.onglet); });
     el.addEventListener('keydown', (e) => {

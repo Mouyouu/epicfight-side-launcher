@@ -94,7 +94,7 @@ ipcMain.handle('app:config', () => ({
   serveur: `${config.SERVEUR.hote}:${config.SERVEUR.port}`,
   minecraft: config.MINECRAFT,
   forge: config.FORGE,
-  liens: config.LIENS,
+  // (plus de liens externes : les documents sont embarques)
   actualites: config.ACTUALITES,
   version: app.getVersion(),
 }));

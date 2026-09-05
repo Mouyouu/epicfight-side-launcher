@@ -40,10 +40,9 @@ module.exports = {
     { titre: 'Nouvelles touches : garde et esquive dédiées', date: '30/08/2026',
       couleur: 'linear-gradient(140deg,#3A2E5A,#1A1428)' },
   ],
-
-  // --- liens ouverts depuis le launcher
-  LIENS: {
-    guideBoss: 'https://claude.ai/code/artifact/0947e41f-1dd1-4ba4-976a-5f721c288be2',
-    touches: 'https://claude.ai/code/artifact/0947e41f-1dd1-4ba4-976a-5f721c288be2',
-  },
 };
+
+// Note : il y avait ici un bloc LIENS pointant vers deux pages en ligne. Il a ete
+// retire parce qu'il ne servait plus a rien - le guide des boss et la liste des
+// touches sont embarques dans renderer/documents/ et s'ouvrent hors ligne. Aucun
+// element [data-lien] n'existait dans l'interface pour les declencher.
