@@ -13,14 +13,20 @@
   ]
  },
  {
-  "titre": "Les arènes de la finale",
+  "titre": "Les arènes : quatre décors, trois façons de se battre",
   "date": "01/09/2026",
   "couleur": "linear-gradient(140deg,#388888,#1B3A3A)",
-  "resume": "Le combat final ne se déroule plus là où vous vous trouvez : le serveur construit une arène dédiée et vous y téléporte.",
+  "resume": "Les combats ne se déroulent plus là où vous vous trouvez : le serveur monte une arène dédiée et vous y téléporte. Et pour le PvP, trois modes.",
   "corps": [
-   "Affronter la fin de la quête au milieu d'une base posait deux problèmes : le décor n'était jamais à la hauteur du moment, et les dégâts collatéraux non plus.",
-   "Le serveur monte maintenant une arène pour l'occasion, vous y envoie, et fait apparaître l'adversaire à l'autre bout. Ce qui s'y passe reste dans l'arène.",
-   "Si vous en ressortez sans l'avoir emporté — mort, fuite ou déconnexion — le Serviteur le remarque et vous propose de rouvrir la porte. Il ne vous jugera pas trop fort."
+   "Se battre au milieu d'une base posait deux problèmes : le décor n'était jamais à la hauteur du moment, et les dégâts collatéraux non plus.",
+   "Le serveur construit maintenant une arène pour l'occasion, vous y envoie, et fait apparaître l'adversaire à l'autre bout. Ce qui s'y passe reste dans l'arène.",
+   "**Quatre décors**, tirés au thème du combat : le **Dôme d'Obsidienne**, blackstone sombre et or — la **Forge du Nether**, briques rouges et chaleur — la **Crypte Gelée**, glace et prismarine, la plus lisible des quatre quand ça va vite — et le **Sanctuaire de l'End**, end stone et purpur.",
+   "Chacun pose la même architecture : une couronne de piliers à brasier, des lampes suspendues au plafond par des chaînes, et un cercle rituel lumineux au centre du sol.",
+   "**Trois façons de s'affronter en duel :**",
+   "**Amicale** — pour s'entraîner. Rien en jeu, rien à perdre.",
+   "**Classée** — le résultat compte. C'est là qu'on voit qui sait vraiment jouer d'Epic Fight.",
+   "**Pari** — vous misez avant d'entrer. Le gagnant repart avec la mise.",
+   "Pour la quête, c'est la même mécanique : si vous ressortez de l'arène finale sans l'avoir emporté — mort, fuite ou déconnexion — le Serviteur le remarque et vous propose de rouvrir la porte. Il ne vous jugera pas trop fort."
   ]
  },
  {
