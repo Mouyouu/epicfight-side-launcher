@@ -64,7 +64,11 @@ li[ouvert] .chev{transform:rotate(90deg);color:var(--eclat)}
 <script>
 const ACTUS = JSON.parse(document.getElementById('donnees').textContent);
 const liste = document.getElementById('liste');
-let ouvert = 0;   // la plus recente est ouverte d'emblee : on vient pour elle
+/* Tout est replie a l'ouverture. Deplier la plus recente d'office paraissait
+   accueillant, mais ca poussait les autres hors de l'ecran : on ouvre cette
+   page pour voir ce qui a change, pas pour lire un article qu'on n'a pas
+   choisi. */
+let ouvert = -1;
 
 const echapper = (t) => String(t).replace(/[&<>"]/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
