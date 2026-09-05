@@ -82,6 +82,19 @@ async function appliquer(manifeste, racine, plan, progression) {
   let recus = 0;
   let faits = 0;
   const taches = plan.aFaire.map((f) => async () => {
+    /* Un fichier vide se cree, il ne se telecharge pas.
+       GitHub Releases refuse un asset de 0 octet : quatre fichiers du pack en sont
+       (config/jei/blacklist.cfg, config/xaeropatreon.txt, et les deux marqueurs
+       initialized.dat). Les demander donnait un 404 en pleine installation, apres
+       des centaines de Mo deja telecharges. Et on ne peut pas les retirer du
+       manifeste : pour un marqueur, c'est son EXISTENCE qui porte l'information. */
+    if (f.taille === 0) {
+      const dest = path.join(racine, f.chemin);
+      fs.mkdirSync(path.dirname(dest), { recursive: true });
+      fs.writeFileSync(dest, '');
+      faits++;
+      return;
+    }
     await fichier(manifeste.base + f.asset, path.join(racine, f.chemin), {
       sha1: f.sha1,
       onOctets: (n) => {
