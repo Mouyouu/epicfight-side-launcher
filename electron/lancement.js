@@ -10,7 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const { cheminLib, autorisee } = require('./installateur');
+const { cheminLib, autorisee, extraireNatives } = require('./installateur');
 const { MINECRAFT, RAM, SERVEUR } = require('./config');
 
 const estWindows = process.platform === 'win32';
@@ -127,6 +127,21 @@ function lancer({ racine, java, idForge, compte, assetIndex, ram = RAM.max,
   const classpath = construireClasspath(racine, chaine);
   const natives = path.join(racine, 'natives');
   fs.mkdirSync(natives, { recursive: true });
+
+  /* Les natives sont verifiees ICI, a chaque lancement, et pas seulement a
+     l'installation.
+
+     Deux raisons. D'abord elles n'etaient extraites nulle part : les installations
+     deja faites ont un dossier natives vide, et on ne va pas demander de tout
+     reinstaller pour 21 dll. Ensuite le test est instantane quand tout va bien - on
+     compte les fichiers - alors qu'une absence coute un demarrage rate avec un
+     message que personne ne sait lire :
+       java.lang.UnsatisfiedLinkError: Failed to locate library: lwjgl.dll */
+  const dejaLa = fs.readdirSync(natives).filter((f) => /\.(dll|so|dylib)$/i.test(f)).length;
+  if (dejaLa === 0) {
+    const n = extraireNatives(racine, chaine);
+    if (!n) throw new Error("Bibliotheques natives introuvables : le jeu ne peut pas demarrer");
+  }
 
   const valeurs = {
     auth_player_name: compte.pseudo,
