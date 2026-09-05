@@ -34,6 +34,7 @@ module.exports = {
 
   // --- le Discord du serveur, ouvert dans le navigateur du joueur
   DISCORD: 'https://discord.gg/ZrTkVQwqQd',
+  TWITCH: 'https://www.twitch.tv/mouyouu',
 
   // --- memoire allouee au jeu (Go)
   RAM: { min: 4, max: 8 },

@@ -177,12 +177,35 @@ function majLauncher(d) {
     zone.className = 'maj prete';
     zone.textContent = 'Version ' + d.version + ' prête — cliquez pour redémarrer';
     zone.onclick = () => window.launcher.majInstaller();
+    proposerMaj(d.version);
   } else if (d.phase === 'erreur') {
     zone.className = 'maj erreur';
     zone.textContent = 'Mise à jour indisponible';
     zone.title = d.message || '';
     console.warn('[maj]', d.message);
   }
+}
+
+/* Le panneau ne s'ouvre que quand la mise a jour est REELLEMENT prete, et
+   jamais par-dessus une installation ou une partie en cours : couper le joueur
+   au milieu d'un telechargement de 748 Mo serait pire que de se taire.
+   Si le moment est mal choisi, on reessaie des qu'il est libre. */
+let majEnAttente = null;
+
+function proposerMaj(version) {
+  majEnAttente = version;
+  if (etat.occupe) return;                 // installation ou jeu en cours
+  const voile = $('voileMaj');
+  if (!voile.hidden) return;               // deja affiche
+  $('texteMaj').textContent =
+    'La version ' + version + ' du launcher a été téléchargée.';
+  voile.hidden = false;
+  $('majMaintenant').focus();
+}
+
+function fermerMaj() {
+  $('voileMaj').hidden = true;
+  majEnAttente = null;                     // la ligne de la barre d'etat reste
 }
 
 // ------------------------------------------------------------------ compte
@@ -199,6 +222,8 @@ function afficherCompte(compte) {
 }
 
 function majBouton() {
+  // Le joueur vient de se liberer : si une mise a jour attendait, on la propose.
+  if (majEnAttente && !etat.occupe) proposerMaj(majEnAttente);
   const b = $('jouer');
   if (!etat.compte)      { b.disabled = true;  b.textContent = 'Connectez-vous'; }
   else if (etat.occupe)  { b.disabled = true;  b.textContent = 'Patientez'; }
@@ -332,6 +357,13 @@ function onglet(nom) {
   // le panneau d'actualites cede la place au lecteur, qui prend toute la largeur
   $('actus').hidden = nom === 'reglages' || !!doc;
 
+  /* Un document ouvert prend tout le launcher : le socle (version, JOUER, etat
+     du serveur) s'efface. La barre de progression, elle, ne s'efface QUE si
+     rien n'est en cours - masquer un telechargement de 748 Mo pendant que le
+     joueur lit le guide serait le laisser sans nouvelles. */
+  $('socle').hidden = !!doc;
+  $('barre').hidden = !!doc && !etat.occupe;
+
   if (doc) {
     $('titreDoc').textContent = doc.titre;
     const cadre = $('cadreDoc');
@@ -393,6 +425,14 @@ function afficherActus(liste) {
 
   $('toutVoir').addEventListener('click', (e) => { e.stopPropagation(); onglet('actus'); });
   $('discord').addEventListener('click', () => window.launcher.ouvrirLien(c.discord));
+  $('twitch').addEventListener('click', () => window.launcher.ouvrirLien(c.twitch));
+
+  $('majMaintenant').addEventListener('click', () => window.launcher.majInstaller());
+  $('majPlusTard').addEventListener('click', fermerMaj);
+  // Échap = "plus tard" : on ne piege jamais le joueur dans une fenetre.
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !$('voileMaj').hidden) fermerMaj();
+  });
 
   for (const el of document.querySelectorAll('[data-onglet]')) {
     el.addEventListener('click', (e) => { e.preventDefault(); onglet(el.dataset.onglet); });

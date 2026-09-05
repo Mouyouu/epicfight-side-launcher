@@ -124,6 +124,7 @@ ipcMain.handle('app:config', () => ({
   // (plus de liens externes : les documents sont embarques)
   actualites: config.ACTUALITES,
   discord: config.DISCORD,
+  twitch: config.TWITCH,
   version: app.getVersion(),
 }));
 

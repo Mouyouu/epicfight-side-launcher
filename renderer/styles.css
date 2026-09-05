@@ -174,6 +174,16 @@ nav a:focus-visible{outline:1px solid var(--eclat);outline-offset:-2px}
 .ms[disabled]{background:var(--trait);color:var(--faible);cursor:default}
 .ms:focus-visible{outline:2px solid var(--eclat);outline-offset:3px}
 .ms .carre{width:16px;height:16px;display:grid;grid-template:1fr 1fr/1fr 1fr;gap:2px}
+/* Les quatre couleurs du logo Microsoft etaient posees en attribut style=.
+   La politique de securite de la page interdit les styles en ligne
+   (style-src 'self') : les carres etaient donc TRANSPARENTS, sur le premier
+   ecran que voit chaque joueur. Un style attribue depuis JavaScript passe, un
+   attribut style= non - c'est la seule difference, et elle ne se voit pas en
+   lisant le code. */
+.ms .carre i:nth-child(1){background:#F25022}
+.ms .carre i:nth-child(2){background:#7FBA00}
+.ms .carre i:nth-child(3){background:#00A4EF}
+.ms .carre i:nth-child(4){background:#FFB900}
 .securite{font-size:.71rem;color:var(--faible);line-height:1.65;max-width:38ch;
   border-top:1px solid var(--trait);padding-top:13px;margin-top:2px}
 .securite b{color:var(--sarcelle);font-weight:500}
@@ -229,16 +239,19 @@ nav a:focus-visible{outline:1px solid var(--eclat);outline-offset:-2px}
 .maj.prete:hover{text-decoration:underline}
 .maj.erreur{color:var(--faible);cursor:help}
 
-/* ---------------- Discord ----------------
-   Dans le rail, sous la quete : c'est un lien vers l'exterieur, il ne doit pas
-   se confondre avec la navigation interne au-dessus. */
-.discord{margin:8px 12px 0;padding:9px 13px;border-radius:3px;cursor:pointer;
-  display:flex;align-items:center;gap:9px;width:calc(100% - 24px);
+/* ---------------- liens exterieurs ----------------
+   Dans le rail, sous la quete : ils quittent le launcher, ils ne doivent pas
+   se confondre avec la navigation interne au-dessus. Cote a cote, parce qu'ils
+   font la meme chose. */
+.liens{display:flex;gap:6px;margin:8px 12px 0}
+.lien{flex:1;padding:9px 4px;border-radius:3px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
   background:var(--pierre-h);border:1px solid var(--trait);color:var(--doux);
-  font-family:inherit;font-size:.78rem;letter-spacing:.04em;
+  font-family:inherit;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;
   -webkit-app-region:no-drag;transition:.15s}
-.discord:hover{border-color:#5865F2;color:#8891f5;background:rgba(88,101,242,.09)}
-.discord svg{flex-shrink:0}
+.lien svg{flex-shrink:0}
+.lien.discord:hover{border-color:#5865F2;color:#8891f5;background:rgba(88,101,242,.09)}
+.lien.twitch:hover{border-color:#9146FF;color:#a970ff;background:rgba(145,70,255,.09)}
 
 /* ---------------- panneau d'actualites ----------------
    Chaque encart ouvre la page complete : le titre seul ne suffisait pas, on
@@ -251,3 +264,40 @@ nav a:focus-visible{outline:1px solid var(--eclat);outline-offset:-2px}
 .actu{cursor:pointer;border-radius:3px;transition:.15s}
 .actu:hover{background:var(--pierre-h)}
 .actu:focus-visible{outline:2px solid var(--sarcelle);outline-offset:2px}
+
+/* ---------------- mise a jour : le panneau ----------------
+   Il couvre le launcher parce qu'une mise a jour qu'on ne remarque pas ne sert
+   a rien. Mais il reste refusable d'un clic : "Plus tard" le replie sur la
+   petite ligne de la barre d'etat, qui, elle, ne part plus. */
+.voile-maj{position:fixed;inset:0;z-index:40;display:grid;place-items:center;
+  background:rgba(6,7,8,.72);backdrop-filter:blur(3px);
+  animation:apparait .18s ease-out}
+@keyframes apparait{from{opacity:0}to{opacity:1}}
+.carte-maj{width:min(420px,86vw);padding:26px 26px 22px;border-radius:6px;
+  background:var(--pierre);border:1px solid var(--trait-c);text-align:center;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);-webkit-app-region:no-drag}
+.carte-maj .ic{width:52px;height:52px;margin:0 auto 14px;border-radius:50%;
+  display:grid;place-items:center;color:var(--eclat);
+  background:rgba(120,248,248,.09);border:1px solid rgba(120,248,248,.28)}
+.carte-maj h2{font-size:1.12rem;font-weight:600;letter-spacing:.01em}
+.carte-maj p{color:var(--doux);margin-top:8px;line-height:1.55}
+.carte-maj .fine{color:var(--faible);font-size:.78rem;margin-top:10px}
+.carte-maj .boutons{display:flex;gap:9px;margin-top:20px}
+.carte-maj button{padding:11px 14px;border-radius:3px;cursor:pointer;
+  font-family:inherit;font-size:.82rem;letter-spacing:.03em;transition:.15s;
+  white-space:nowrap;
+  /* Centrage explicite : le letter-spacing ajoute un espace APRES la derniere
+     lettre, que text-align seul ne compense pas. Le libelle paraissait pousse
+     vers la gauche. */
+  display:flex;align-items:center;justify-content:center;
+  text-indent:.03em}
+/* L'action principale prend la place dont son libelle a besoin : sur deux
+   colonnes egales, "Redemarrer maintenant" passait a la ligne. */
+.carte-maj .principal{flex:1.55 1 0}
+.carte-maj .secondaire{flex:1 1 0}
+.carte-maj .principal{background:var(--eclat);color:#06181A;border:0;font-weight:600}
+.carte-maj .principal:hover{filter:brightness(1.12)}
+.carte-maj .secondaire{background:transparent;color:var(--doux);
+  border:1px solid var(--trait-c)}
+.carte-maj .secondaire:hover{color:var(--texte);border-color:var(--doux)}
+@media (prefers-reduced-motion:reduce){.voile-maj{animation:none}}
