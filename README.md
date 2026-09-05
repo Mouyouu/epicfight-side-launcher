@@ -57,8 +57,11 @@ définie par `MANIFESTE_URL` dans `electron/config.js`.
   Ce n'est pas un secret, mais ce n'est pas une application enregistrée à ton nom : pour être
   en règle, enregistrer la sienne sur `portal.azure.com` et demander à Mojang l'accès à
   l'API Minecraft.
-- `MANIFESTE_URL` contient encore les marqueurs `<utilisateur>/<depot>`. À remplacer par
-  l'adresse réelle du dépôt, sinon la mise à jour du pack ne peut pas fonctionner.
+- Le dépôt est public : **https://github.com/Mouyouu/epicfight-side-launcher**.
+  `MANIFESTE_URL` et la clé `base` du manifeste y pointent déjà. Le manifeste doit être
+  publié en asset d'une Release, sinon `releases/latest/download/` ne résout rien.
+- L'adresse du serveur de jeu (`SERVEUR` dans `electron/config.js`) est visible ici, comme
+  dans tout launcher qui s'y connecte. C'est un choix assumé, pas un oubli.
 - Le pack (`distribution/`) est exclu du dépôt : 1,4 Go n'ont rien à faire dans un git.
 
 ## Sécurité

@@ -18,7 +18,7 @@ module.exports = {
   // --- distribution du pack
   // Le manifeste liste chaque fichier avec sa taille et son sha1. Le launcher ne
   // retelecharge que ce qui a change : c'est ce qui rend les mises a jour legeres.
-  MANIFESTE_URL: 'https://github.com/<utilisateur>/<depot>/releases/latest/download/manifeste.json',
+  MANIFESTE_URL: 'https://github.com/Mouyouu/epicfight-side-launcher/releases/latest/download/manifeste.json',
 
   // --- memoire allouee au jeu (Go)
   RAM: { min: 4, max: 8 },

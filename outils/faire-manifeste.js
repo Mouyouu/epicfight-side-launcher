@@ -140,7 +140,7 @@ function main() {
     minecraft: '1.20.1',
     forge: '47.4.13',
     // Le launcher remplace <BASE> par l'URL de la release avant de telecharger.
-    base: 'https://github.com/<utilisateur>/<depot>/releases/download/v' + version + '/',
+    base: 'https://github.com/Mouyouu/epicfight-side-launcher/releases/download/v' + version + '/',
     total: { fichiers: entrees.length, octets },
     fichiers: entrees,
   };
