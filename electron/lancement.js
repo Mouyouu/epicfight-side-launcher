@@ -148,7 +148,18 @@ function lancer({ racine, java, idForge, compte, assetIndex, ram = RAM.max,
     auth_uuid: compte.uuid,
     auth_access_token: compte.jeton,
     user_type: 'msa',
-    version_name: idForge,
+    /* LE NOM DE LA VERSION EST CELUI DU JAR, PAS CELUI DU PROFIL.
+       Forge 1.17+ ne cree aucun jar : versions/1.20.1-forge-47.4.13/ ne contient
+       qu'un .json, et le jar du classpath reste le vanilla 1.20.1.jar.
+       Or son profil passe a BootstrapLauncher :
+         -DignoreList=...,forge-,${version_name}.jar
+       C'est la liste des jars a EXCLURE du module path. Avec idForge, elle valait
+       "1.20.1-forge-47.4.13.jar" et ne correspondait a rien : le jar vanilla devenait
+       le module automatique _1._20._1, en collision avec le module minecraft de Forge :
+         ResolutionException: Modules minecraft and _1._20._1 export package
+         net.minecraft.client to module japng
+       Le jeu mourait sans rien ecrire dans latest.log. */
+    version_name: MINECRAFT,
     game_directory: racine,
     assets_root: path.join(racine, 'assets'),
     assets_index_name: assetIndex,
@@ -183,6 +194,10 @@ function lancer({ racine, java, idForge, compte, assetIndex, ram = RAM.max,
     }
   }
   jeu = retirerNonResolus(jeu);
+  /* ...mais le joueur, lui, doit voir sa version Forge. On remet donc l'identifiant
+     complet sur le seul argument d'affichage, apres coup. */
+  const iVersion = jeu.indexOf('--version');
+  if (iVersion >= 0 && iVersion + 1 < jeu.length) jeu[iVersion + 1] = idForge;
   if (rejoindre) jeu.push('--quickPlayMultiplayer', `${SERVEUR.hote}:${SERVEUR.port}`);
 
   const enfant = spawn(java, [...jvm, principal, ...jeu], {

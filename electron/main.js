@@ -60,6 +60,31 @@ function relireSession() {
 const dire = (donnees) => fenetre && !fenetre.isDestroyed()
   && fenetre.webContents.send('progression', donnees);
 
+/**
+ * Ecrit la sortie du jeu dans EpicfightSide/jeu.log.
+ *
+ * Elle etait jusqu'ici envoyee a l'interface sous l'etape "journal", que celle-ci
+ * ignore - donc perdue. Quand Minecraft meurt avant d'avoir ouvert son propre
+ * latest.log, c'est pourtant le SEUL endroit ou la cause apparait. Un plantage a
+ * coute plusieurs allers-retours pour cette raison :
+ *   ResolutionException: Modules minecraft and _1._20._1 export package ...
+ * n'existait nulle part sur le disque.
+ *
+ * Le fichier est remis a zero a chaque lancement : on veut la derniere partie, pas
+ * un historique qui grossit sans fin.
+ */
+let fluxJeu = null;
+function ouvrirJournalJeu() {
+  try {
+    fs.mkdirSync(DOSSIER, { recursive: true });
+    if (fluxJeu) fluxJeu.end();
+    fluxJeu = fs.createWriteStream(path.join(DOSSIER, 'jeu.log'), { flags: 'w' });
+  } catch { fluxJeu = null; }
+}
+function journaliserJeu(texte) {
+  try { if (fluxJeu) fluxJeu.write(texte); } catch { /* jamais bloquant */ }
+}
+
 // ---------------------------------------------------------------- fenetre
 
 function creerFenetre() {
@@ -186,11 +211,15 @@ ipcMain.handle('jeu:lancer', async () => {
     const r = await pack.synchroniser(RACINE_JEU, dire);
 
     dire({ etape: 'lancement', detail: 'démarrage du jeu' });
+    ouvrirJournalJeu();
     jeu = lancement.lancer({
       racine: RACINE_JEU, java, idForge, compte, assetIndex,
       ram: reglages.ram || config.RAM.max,
       rejoindre: reglages.rejoindre !== false,
-      onSortie: (t) => dire({ etape: 'journal', ligne: t.trimEnd() }),
+      onSortie: (t) => {
+        journaliserJeu(t);
+        dire({ etape: 'journal', ligne: t.trimEnd() });
+      },
     });
 
     jeu.on('exit', (code) => {
